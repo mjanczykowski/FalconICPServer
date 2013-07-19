@@ -10,11 +10,12 @@ using System.Windows.Forms;
 
 namespace FalconICPServer
 {
-    public partial class SettingsForm : Form
+    public partial class MainForm : Form
     {
-        public SettingsForm()
+        public MainForm()
         {
             InitializeComponent();
         }
+
     }
 }
