@@ -30,43 +30,44 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.tsbStart = new System.Windows.Forms.ToolStripButton();
+            this.tsbStop = new System.Windows.Forms.ToolStripButton();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabConnection = new System.Windows.Forms.TabPage();
+            this.gbGeneral = new System.Windows.Forms.GroupBox();
+            this.chkMinimizeToSystemTray = new System.Windows.Forms.CheckBox();
+            this.chkLaunchMinimized = new System.Windows.Forms.CheckBox();
+            this.chkRunServerOnLaunch = new System.Windows.Forms.CheckBox();
+            this.chkLaunchAtStartup = new System.Windows.Forms.CheckBox();
+            this.gbPerformance = new System.Windows.Forms.GroupBox();
+            this.cbPriority = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelMilliseconds = new System.Windows.Forms.Label();
+            this.labelUpdatePeriod = new System.Windows.Forms.Label();
             this.gbConnection = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.lbServerIP = new System.Windows.Forms.Label();
             this.tbServerPort = new System.Windows.Forms.TextBox();
             this.labelServerPort = new System.Windows.Forms.Label();
             this.labelServerIP = new System.Windows.Forms.Label();
             this.tabKeystrokes = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.gbPerformance = new System.Windows.Forms.GroupBox();
-            this.labelUpdatePeriod = new System.Windows.Forms.Label();
-            this.tbUpdatePeriod = new System.Windows.Forms.TextBox();
-            this.labelMilliseconds = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.gbGeneral = new System.Windows.Forms.GroupBox();
-            this.cbLaunchAtStartup = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.nudUpdatePeriod = new System.Windows.Forms.NumericUpDown();
             this.toolStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
-            this.gbConnection.SuspendLayout();
-            this.gbPerformance.SuspendLayout();
             this.gbGeneral.SuspendLayout();
+            this.gbPerformance.SuspendLayout();
+            this.gbConnection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2});
+            this.tsbStart,
+            this.tsbStop});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -74,21 +75,24 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // tsbStart
             // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(86, 22);
-            this.toolStripButton1.Text = "Start Server";
+            this.tsbStart.Image = ((System.Drawing.Image)(resources.GetObject("tsbStart.Image")));
+            this.tsbStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStart.Name = "tsbStart";
+            this.tsbStart.Size = new System.Drawing.Size(86, 22);
+            this.tsbStart.Text = "Start Server";
+            this.tsbStart.Click += new System.EventHandler(this.tsbStart_Click);
             // 
-            // toolStripButton2
+            // tsbStop
             // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(86, 22);
-            this.toolStripButton2.Text = "Stop Server";
+            this.tsbStop.Enabled = false;
+            this.tsbStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbStop.Image")));
+            this.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStop.Name = "tsbStop";
+            this.tsbStop.Size = new System.Drawing.Size(86, 22);
+            this.tsbStop.Text = "Stop Server";
+            this.tsbStop.Click += new System.EventHandler(this.tsbStop_Click);
             // 
             // tabControl
             // 
@@ -115,6 +119,109 @@
             this.tabConnection.Text = "Connection Settings";
             this.tabConnection.UseVisualStyleBackColor = true;
             // 
+            // gbGeneral
+            // 
+            this.gbGeneral.Controls.Add(this.chkMinimizeToSystemTray);
+            this.gbGeneral.Controls.Add(this.chkLaunchMinimized);
+            this.gbGeneral.Controls.Add(this.chkRunServerOnLaunch);
+            this.gbGeneral.Controls.Add(this.chkLaunchAtStartup);
+            this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gbGeneral.Location = new System.Drawing.Point(3, 191);
+            this.gbGeneral.Name = "gbGeneral";
+            this.gbGeneral.Size = new System.Drawing.Size(305, 112);
+            this.gbGeneral.TabIndex = 2;
+            this.gbGeneral.TabStop = false;
+            this.gbGeneral.Text = "General Settings";
+            // 
+            // chkMinimizeToSystemTray
+            // 
+            this.chkMinimizeToSystemTray.AutoSize = true;
+            this.chkMinimizeToSystemTray.Location = new System.Drawing.Point(6, 88);
+            this.chkMinimizeToSystemTray.Name = "chkMinimizeToSystemTray";
+            this.chkMinimizeToSystemTray.Size = new System.Drawing.Size(139, 17);
+            this.chkMinimizeToSystemTray.TabIndex = 3;
+            this.chkMinimizeToSystemTray.Text = "Minimize to System Tray";
+            this.chkMinimizeToSystemTray.UseVisualStyleBackColor = true;
+            // 
+            // chkLaunchMinimized
+            // 
+            this.chkLaunchMinimized.AutoSize = true;
+            this.chkLaunchMinimized.Location = new System.Drawing.Point(6, 65);
+            this.chkLaunchMinimized.Name = "chkLaunchMinimized";
+            this.chkLaunchMinimized.Size = new System.Drawing.Size(110, 17);
+            this.chkLaunchMinimized.TabIndex = 2;
+            this.chkLaunchMinimized.Text = "Launch minimized";
+            this.chkLaunchMinimized.UseVisualStyleBackColor = true;
+            // 
+            // chkRunServerOnLaunch
+            // 
+            this.chkRunServerOnLaunch.AutoSize = true;
+            this.chkRunServerOnLaunch.Location = new System.Drawing.Point(6, 42);
+            this.chkRunServerOnLaunch.Name = "chkRunServerOnLaunch";
+            this.chkRunServerOnLaunch.Size = new System.Drawing.Size(128, 17);
+            this.chkRunServerOnLaunch.TabIndex = 1;
+            this.chkRunServerOnLaunch.Text = "Run server on launch";
+            this.chkRunServerOnLaunch.UseVisualStyleBackColor = true;
+            // 
+            // chkLaunchAtStartup
+            // 
+            this.chkLaunchAtStartup.AutoSize = true;
+            this.chkLaunchAtStartup.Location = new System.Drawing.Point(6, 19);
+            this.chkLaunchAtStartup.Name = "chkLaunchAtStartup";
+            this.chkLaunchAtStartup.Size = new System.Drawing.Size(148, 17);
+            this.chkLaunchAtStartup.TabIndex = 0;
+            this.chkLaunchAtStartup.Text = "Launch at System Startup";
+            this.chkLaunchAtStartup.UseVisualStyleBackColor = true;
+            // 
+            // gbPerformance
+            // 
+            this.gbPerformance.Controls.Add(this.nudUpdatePeriod);
+            this.gbPerformance.Controls.Add(this.cbPriority);
+            this.gbPerformance.Controls.Add(this.label5);
+            this.gbPerformance.Controls.Add(this.labelMilliseconds);
+            this.gbPerformance.Controls.Add(this.labelUpdatePeriod);
+            this.gbPerformance.Location = new System.Drawing.Point(3, 109);
+            this.gbPerformance.Name = "gbPerformance";
+            this.gbPerformance.Size = new System.Drawing.Size(305, 75);
+            this.gbPerformance.TabIndex = 1;
+            this.gbPerformance.TabStop = false;
+            this.gbPerformance.Text = "Performance";
+            // 
+            // cbPriority
+            // 
+            this.cbPriority.FormattingEnabled = true;
+            this.cbPriority.Location = new System.Drawing.Point(109, 41);
+            this.cbPriority.Name = "cbPriority";
+            this.cbPriority.Size = new System.Drawing.Size(79, 21);
+            this.cbPriority.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 44);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Thread priority:";
+            // 
+            // labelMilliseconds
+            // 
+            this.labelMilliseconds.AutoSize = true;
+            this.labelMilliseconds.Location = new System.Drawing.Point(168, 21);
+            this.labelMilliseconds.Name = "labelMilliseconds";
+            this.labelMilliseconds.Size = new System.Drawing.Size(20, 13);
+            this.labelMilliseconds.TabIndex = 5;
+            this.labelMilliseconds.Text = "ms";
+            // 
+            // labelUpdatePeriod
+            // 
+            this.labelUpdatePeriod.AutoSize = true;
+            this.labelUpdatePeriod.Location = new System.Drawing.Point(3, 21);
+            this.labelUpdatePeriod.Name = "labelUpdatePeriod";
+            this.labelUpdatePeriod.Size = new System.Drawing.Size(77, 13);
+            this.labelUpdatePeriod.TabIndex = 2;
+            this.labelUpdatePeriod.Text = "Update period:";
+            // 
             // gbConnection
             // 
             this.gbConnection.AutoSize = true;
@@ -131,6 +238,24 @@
             this.gbConnection.TabIndex = 0;
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "Connection";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(107, 71);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "none";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Connected client:";
             // 
             // lbServerIP
             // 
@@ -178,134 +303,27 @@
             this.tabKeystrokes.Text = "Keystrokes";
             this.tabKeystrokes.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // nudUpdatePeriod
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(107, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "none";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 71);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Connected client:";
-            // 
-            // gbPerformance
-            // 
-            this.gbPerformance.Controls.Add(this.comboBox1);
-            this.gbPerformance.Controls.Add(this.label5);
-            this.gbPerformance.Controls.Add(this.labelMilliseconds);
-            this.gbPerformance.Controls.Add(this.tbUpdatePeriod);
-            this.gbPerformance.Controls.Add(this.labelUpdatePeriod);
-            this.gbPerformance.Location = new System.Drawing.Point(3, 109);
-            this.gbPerformance.Name = "gbPerformance";
-            this.gbPerformance.Size = new System.Drawing.Size(305, 75);
-            this.gbPerformance.TabIndex = 1;
-            this.gbPerformance.TabStop = false;
-            this.gbPerformance.Text = "Performance";
-            // 
-            // labelUpdatePeriod
-            // 
-            this.labelUpdatePeriod.AutoSize = true;
-            this.labelUpdatePeriod.Location = new System.Drawing.Point(3, 21);
-            this.labelUpdatePeriod.Name = "labelUpdatePeriod";
-            this.labelUpdatePeriod.Size = new System.Drawing.Size(77, 13);
-            this.labelUpdatePeriod.TabIndex = 2;
-            this.labelUpdatePeriod.Text = "Update period:";
-            // 
-            // tbUpdatePeriod
-            // 
-            this.tbUpdatePeriod.Location = new System.Drawing.Point(109, 18);
-            this.tbUpdatePeriod.Name = "tbUpdatePeriod";
-            this.tbUpdatePeriod.Size = new System.Drawing.Size(40, 20);
-            this.tbUpdatePeriod.TabIndex = 4;
-            this.tbUpdatePeriod.Text = "50";
-            // 
-            // labelMilliseconds
-            // 
-            this.labelMilliseconds.AutoSize = true;
-            this.labelMilliseconds.Location = new System.Drawing.Point(155, 21);
-            this.labelMilliseconds.Name = "labelMilliseconds";
-            this.labelMilliseconds.Size = new System.Drawing.Size(20, 13);
-            this.labelMilliseconds.TabIndex = 5;
-            this.labelMilliseconds.Text = "ms";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 44);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Thread priority:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(109, 41);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 7;
-            // 
-            // gbGeneral
-            // 
-            this.gbGeneral.Controls.Add(this.checkBox3);
-            this.gbGeneral.Controls.Add(this.checkBox2);
-            this.gbGeneral.Controls.Add(this.checkBox1);
-            this.gbGeneral.Controls.Add(this.cbLaunchAtStartup);
-            this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbGeneral.Location = new System.Drawing.Point(3, 191);
-            this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Size = new System.Drawing.Size(305, 112);
-            this.gbGeneral.TabIndex = 2;
-            this.gbGeneral.TabStop = false;
-            this.gbGeneral.Text = "General Settings";
-            // 
-            // cbLaunchAtStartup
-            // 
-            this.cbLaunchAtStartup.AutoSize = true;
-            this.cbLaunchAtStartup.Location = new System.Drawing.Point(6, 19);
-            this.cbLaunchAtStartup.Name = "cbLaunchAtStartup";
-            this.cbLaunchAtStartup.Size = new System.Drawing.Size(148, 17);
-            this.cbLaunchAtStartup.TabIndex = 0;
-            this.cbLaunchAtStartup.Text = "Launch at System Startup";
-            this.cbLaunchAtStartup.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 42);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(128, 17);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Run server on launch";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 65);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(110, 17);
-            this.checkBox2.TabIndex = 2;
-            this.checkBox2.Text = "Launch minimized";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 88);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(139, 17);
-            this.checkBox3.TabIndex = 3;
-            this.checkBox3.Text = "Minimize to System Tray";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.nudUpdatePeriod.Location = new System.Drawing.Point(109, 19);
+            this.nudUpdatePeriod.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.nudUpdatePeriod.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudUpdatePeriod.Name = "nudUpdatePeriod";
+            this.nudUpdatePeriod.Size = new System.Drawing.Size(53, 20);
+            this.nudUpdatePeriod.TabIndex = 8;
+            this.nudUpdatePeriod.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // MainForm
             // 
@@ -314,19 +332,23 @@
             this.ClientSize = new System.Drawing.Size(319, 357);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Falcon ICP Server";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.tabConnection.ResumeLayout(false);
             this.tabConnection.PerformLayout();
-            this.gbConnection.ResumeLayout(false);
-            this.gbConnection.PerformLayout();
-            this.gbPerformance.ResumeLayout(false);
-            this.gbPerformance.PerformLayout();
             this.gbGeneral.ResumeLayout(false);
             this.gbGeneral.PerformLayout();
+            this.gbPerformance.ResumeLayout(false);
+            this.gbPerformance.PerformLayout();
+            this.gbConnection.ResumeLayout(false);
+            this.gbConnection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -335,8 +357,8 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton tsbStart;
+        private System.Windows.Forms.ToolStripButton tsbStop;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabConnection;
         private System.Windows.Forms.TabPage tabKeystrokes;
@@ -348,15 +370,15 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox gbPerformance;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbPriority;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label labelMilliseconds;
-        private System.Windows.Forms.TextBox tbUpdatePeriod;
         private System.Windows.Forms.Label labelUpdatePeriod;
         private System.Windows.Forms.GroupBox gbGeneral;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox cbLaunchAtStartup;
+        private System.Windows.Forms.CheckBox chkMinimizeToSystemTray;
+        private System.Windows.Forms.CheckBox chkLaunchMinimized;
+        private System.Windows.Forms.CheckBox chkRunServerOnLaunch;
+        private System.Windows.Forms.CheckBox chkLaunchAtStartup;
+        private System.Windows.Forms.NumericUpDown nudUpdatePeriod;
     }
 }

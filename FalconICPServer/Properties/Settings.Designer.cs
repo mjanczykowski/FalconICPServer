@@ -74,24 +74,24 @@ namespace FalconICPServer.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public int PollingFrequencyMilliseconds {
+        public int UpdatePeriod {
             get {
-                return ((int)(this["PollingFrequencyMilliseconds"]));
+                return ((int)(this["UpdatePeriod"]));
             }
             set {
-                this["PollingFrequencyMilliseconds"] = value;
+                this["UpdatePeriod"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RunMinimized {
+        public bool LaunchMinimized {
             get {
-                return ((bool)(this["RunMinimized"]));
+                return ((bool)(this["LaunchMinimized"]));
             }
             set {
-                this["RunMinimized"] = value;
+                this["LaunchMinimized"] = value;
             }
         }
         

@@ -59,5 +59,23 @@ namespace FalconICPServer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected to server.
+        /// </summary>
+        internal static string ded_info_connected {
+            get {
+                return ResourceManager.GetString("ded_info_connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for flight data.
+        /// </summary>
+        internal static string ded_info_no_flight_data {
+            get {
+                return ResourceManager.GetString("ded_info_no_flight_data", resourceCulture);
+            }
+        }
     }
 }

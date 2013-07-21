@@ -14,10 +14,10 @@
     <Setting Name="ServerPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">30456</Value>
     </Setting>
-    <Setting Name="PollingFrequencyMilliseconds" Type="System.Int32" Scope="User">
+    <Setting Name="UpdatePeriod" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">50</Value>
     </Setting>
-    <Setting Name="RunMinimized" Type="System.Boolean" Scope="User">
+    <Setting Name="LaunchMinimized" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Priority" Type="System.Threading.ThreadPriority" Scope="User">
