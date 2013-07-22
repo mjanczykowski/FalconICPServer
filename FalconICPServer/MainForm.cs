@@ -17,6 +17,7 @@ namespace FalconICPServer
     public partial class MainForm : Form
     {
         private ICPServer icpServer;
+        private Thread serverThread;
         private Logger logger = LogManager.GetCurrentClassLogger();
 
         public MainForm()
@@ -39,21 +40,27 @@ namespace FalconICPServer
                 tbServerPort.Focus();
                 return;
             }
+
+            var portNum = 30456;
+            Int32.TryParse(Settings.Default.ServerPort, out portNum);
+            
             if (icpServer == null)
             {
                 icpServer = new ICPServer();
+                icpServer.ConnectionEstablished += new EventHandler(IcpServer_ConnectionEstablished);
             }
-            var portNum = 30456;
-            Int32.TryParse(Settings.Default.ServerPort, out portNum);
+            
+
+            //icpServer = new ICPServer();
+            serverThread = new Thread(icpServer.Start);
+            serverThread.Start();
+            //icpServer.Start();
+
             tsbStart.Enabled = false;
 
             if (icpServer != null)
             {
-                icpServer.Stop();
-            }
-            else
-            {
-                icpServer = new ICPServer();
+                //icpServer.Stop();
             }
 
             gbConnection.Enabled = false;
@@ -74,7 +81,7 @@ namespace FalconICPServer
 
             tsbStop.Enabled = true;
 
-            icpServer.Start();
+            //icpServer.Start();
         }
 
         private void StopServer()
@@ -142,6 +149,12 @@ namespace FalconICPServer
                 }
             }
             LoadSettings();
+        }
+
+        private void IcpServer_ConnectionEstablished(object sender, EventArgs eventArgs)
+        {
+            logger.Debug("IcpServer_ConnectionEstablished");
+            
         }
 
         private void LoadSettings()

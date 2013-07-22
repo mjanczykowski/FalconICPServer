@@ -14,6 +14,9 @@ namespace FalconICPServer
 {
     class ICPServer : IDisposable
     {
+        public event EventHandler ConnectionEstablished;
+        public event EventHandler ConnectionLost;
+
         /// <summary>
         /// Falcon SharedMemory reader
         /// </summary>
@@ -22,7 +25,13 @@ namespace FalconICPServer
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private volatile bool _running;
+        private volatile bool _connected;
         private volatile bool _disposed;
+
+        private TcpListener tcpListener;
+        private TcpClient tcpClient;
+
+        private static readonly object _locker = new object();
 
         /// <summary>
         /// Runs Server
@@ -42,33 +51,127 @@ namespace FalconICPServer
             var port = 30456;
             Int32.TryParse(Settings.Default.ServerPort, out port);
 
+            IPAddress ip = IPAddress.Parse("0.0.0.0");
+
+            tcpListener = new TcpListener(ip, port);
+            tcpListener.Start();
+            tcpListener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), tcpListener);
+
+            /*
             while (_running)
             {
-                //var flightData = _smReader.GetRawPrimaryFlightData();
-                var flightData = _smReader.GetCurrentData();
-                if (flightData == null)
+                /*
+                if (!listener.Pending)
                 {
-                    logger.Debug("flightData is null");
-                    flightData = new FlightData();
+                    Thread.Sleep(50);
+                    Application.DoEvents();
+                    continue;
                 }
-
-                var dedLines = flightData.DEDLines;
-                var invertedDedLines = flightData.Invert;
-
-                string asd = MergeDEDLines(dedLines, invertedDedLines);
-
-                StringBuilder str = new StringBuilder();
-                for (int i = 0; i < asd.Length; i++)
+                */
+            /*
+                using (TcpClient client = listener.AcceptTcpClient())
                 {
-                    str.Append((byte)asd[i]);
-                    str.Append(" ");
-                }
-                logger.Debug(asd.Length);
-                logger.Debug(str.ToString());
+                    //var flightData = _smReader.GetRawPrimaryFlightData();
+                    var flightData = _smReader.GetCurrentData();
+                    if (flightData == null)
+                    {
+                        logger.Debug("flightData is null");
+                        flightData = new FlightData();
+                    }
 
-                Thread.Sleep(Settings.Default.UpdatePeriod);
-                Application.DoEvents();
+                    var dedLines = flightData.DEDLines;
+                    var invertedDedLines = flightData.Invert;
+
+                    string asd = MergeDEDLines(dedLines, invertedDedLines);
+
+                    StringBuilder str = new StringBuilder();
+                    for (int i = 0; i < asd.Length; i++)
+                    {
+                        str.Append((byte)asd[i]);
+                        str.Append(" ");
+                    }
+                    logger.Debug(asd.Length);
+                    logger.Debug(str.ToString());
+
+                    Thread.Sleep(Settings.Default.UpdatePeriod);
+
+                    client.Close();
+                }
+                //Application.DoEvents();
             }
+            
+
+            listener.Stop();
+             */
+        }
+
+
+        /// <summary>
+        /// Stops ICP Server
+        /// </summary>
+        public void Stop()
+        {
+            logger.Debug("Stop()");
+            /*
+            _running = false;
+            listener.Stop();
+            */
+
+            tcpListener.Stop();
+
+            lock (_locker)
+            {
+                if (tcpClient != null)
+                {
+                    tcpClient.Client.Disconnect(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Callback for the accept tcpclient operation.
+        /// </summary>
+        /// <param name="result">The async result object</param>
+        private void AcceptTcpClientCallback(IAsyncResult asyncResult)
+        {
+            logger.Debug("AcceptTCPClientCallback(result)");
+
+            var listener = (TcpListener)asyncResult.AsyncState;
+
+            // If the listener has been closed during callback
+            if (listener.Server == null || !listener.Server.IsBound)
+            {
+                return;
+            }
+
+            try
+            {
+                lock (_locker)
+                {
+                    // Close connection if we're still connected or it's broken
+                    if (tcpClient != null)
+                    {
+                        tcpClient.Client.Disconnect(false);
+                        tcpClient.Close();
+                        tcpClient = null;
+                    }
+                    tcpClient = listener.EndAcceptTcpClient(asyncResult);
+                    this.OnConnected(EventArgs.Empty);
+
+                    logger.Debug("connection established");
+                    /*
+                    NetworkStream networkStream = tcpClient.GetStream();
+                    networkStream.BeginRead(
+                    */
+                }
+            }
+            catch (SocketException e) { logger.Debug(e);  }
+            catch (ObjectDisposedException e) { logger.Debug(e); }
+
+            // Listen for next connection (in case the current gets broken, etc.)
+            listener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), listener);
+
+            logger.Debug("AcceptTCPClientCallback exit");
         }
 
         /// <summary>
@@ -100,12 +203,21 @@ namespace FalconICPServer
             return str.ToString();
         }
 
-        /// <summary>
-        /// Stops ICP Server
-        /// </summary>
-        public void Stop()
+        private void OnConnected(EventArgs e)
         {
-            _running = false;
+            logger.Debug("OnConnected");
+            if (ConnectionEstablished != null)
+            {
+                ConnectionEstablished(this, e);
+            }
+        }
+
+        private void OnDisconnected(EventArgs e)
+        {
+            if (ConnectionLost != null)
+            {
+                ConnectionLost(this, e);
+            }
         }
 
         #region IDisposable Members

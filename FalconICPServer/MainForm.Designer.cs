@@ -40,26 +40,26 @@
             this.chkRunServerOnLaunch = new System.Windows.Forms.CheckBox();
             this.chkLaunchAtStartup = new System.Windows.Forms.CheckBox();
             this.gbPerformance = new System.Windows.Forms.GroupBox();
+            this.nudUpdatePeriod = new System.Windows.Forms.NumericUpDown();
             this.cbPriority = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.labelMilliseconds = new System.Windows.Forms.Label();
             this.labelUpdatePeriod = new System.Windows.Forms.Label();
             this.gbConnection = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbClientIP = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lbServerIP = new System.Windows.Forms.Label();
             this.tbServerPort = new System.Windows.Forms.TextBox();
             this.labelServerPort = new System.Windows.Forms.Label();
             this.labelServerIP = new System.Windows.Forms.Label();
             this.tabKeystrokes = new System.Windows.Forms.TabPage();
-            this.nudUpdatePeriod = new System.Windows.Forms.NumericUpDown();
             this.toolStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
             this.gbGeneral.SuspendLayout();
             this.gbPerformance.SuspendLayout();
-            this.gbConnection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).BeginInit();
+            this.gbConnection.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -187,6 +187,28 @@
             this.gbPerformance.TabStop = false;
             this.gbPerformance.Text = "Performance";
             // 
+            // nudUpdatePeriod
+            // 
+            this.nudUpdatePeriod.Location = new System.Drawing.Point(109, 19);
+            this.nudUpdatePeriod.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.nudUpdatePeriod.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudUpdatePeriod.Name = "nudUpdatePeriod";
+            this.nudUpdatePeriod.Size = new System.Drawing.Size(53, 20);
+            this.nudUpdatePeriod.TabIndex = 8;
+            this.nudUpdatePeriod.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
             // cbPriority
             // 
             this.cbPriority.FormattingEnabled = true;
@@ -225,7 +247,7 @@
             // gbConnection
             // 
             this.gbConnection.AutoSize = true;
-            this.gbConnection.Controls.Add(this.label1);
+            this.gbConnection.Controls.Add(this.lbClientIP);
             this.gbConnection.Controls.Add(this.label2);
             this.gbConnection.Controls.Add(this.lbServerIP);
             this.gbConnection.Controls.Add(this.tbServerPort);
@@ -239,14 +261,14 @@
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "Connection";
             // 
-            // label1
+            // lbClientIP
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(107, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "none";
+            this.lbClientIP.AutoSize = true;
+            this.lbClientIP.Location = new System.Drawing.Point(107, 71);
+            this.lbClientIP.Name = "lbClientIP";
+            this.lbClientIP.Size = new System.Drawing.Size(31, 13);
+            this.lbClientIP.TabIndex = 6;
+            this.lbClientIP.Text = "none";
             // 
             // label2
             // 
@@ -303,28 +325,6 @@
             this.tabKeystrokes.Text = "Keystrokes";
             this.tabKeystrokes.UseVisualStyleBackColor = true;
             // 
-            // nudUpdatePeriod
-            // 
-            this.nudUpdatePeriod.Location = new System.Drawing.Point(109, 19);
-            this.nudUpdatePeriod.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.nudUpdatePeriod.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudUpdatePeriod.Name = "nudUpdatePeriod";
-            this.nudUpdatePeriod.Size = new System.Drawing.Size(53, 20);
-            this.nudUpdatePeriod.TabIndex = 8;
-            this.nudUpdatePeriod.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,9 +346,9 @@
             this.gbGeneral.PerformLayout();
             this.gbPerformance.ResumeLayout(false);
             this.gbPerformance.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).EndInit();
             this.gbConnection.ResumeLayout(false);
             this.gbConnection.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,7 +367,7 @@
         private System.Windows.Forms.Label labelServerPort;
         private System.Windows.Forms.Label labelServerIP;
         private System.Windows.Forms.Label lbServerIP;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbClientIP;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox gbPerformance;
         private System.Windows.Forms.ComboBox cbPriority;
