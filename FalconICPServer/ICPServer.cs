@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using F4SharedMem;
 using FalconICPServer.Properties;
 using NLog;
+using System.Text;
 
 namespace FalconICPServer
 {
@@ -25,7 +26,6 @@ namespace FalconICPServer
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private volatile bool _running;
-        private volatile bool _connected;
         private volatile bool _disposed;
 
         private TcpListener tcpListener;
@@ -34,17 +34,17 @@ namespace FalconICPServer
 
         private static readonly object _locker = new object();
 
+        public ICPServer()
+        {
+            _smReader = new Reader();
+        }
+
         /// <summary>
         /// Runs Server
         /// </summary>
         public void Start()
         {
             logger.Info("Running server");
-
-            if (_running)
-            {
-                throw new InvalidOperationException();
-            }
 
             var serverPort = Settings.Default.ServerPort;
             var port = 30456;
@@ -65,15 +65,9 @@ namespace FalconICPServer
         {
             logger.Debug("Stop()");
 
-            if (clientThread != null)
-            {
-                StopClientThread();
-            }
-
-            _running = false;
-            
             tcpListener.Stop();
-
+            
+            //Close client thread
             lock (_locker)
             {
                 if (tcpClient != null)
@@ -83,6 +77,13 @@ namespace FalconICPServer
                     tcpClient = null;
                 }
             }
+            
+            if (clientThread != null)
+            {
+                CloseClientThread();
+            }
+
+            
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace FalconICPServer
         /// <param name="result">The async result object</param>
         private void AcceptTcpClientCallback(IAsyncResult asyncResult)
         {
-            logger.Debug("AcceptTCPClientCallback(result)");
+            logger.Debug("Incoming connection");
 
             var listener = (TcpListener)asyncResult.AsyncState;
 
@@ -103,10 +104,9 @@ namespace FalconICPServer
 
             try
             {
-                // Close connection if we're still connected or it's broken
                 if (clientThread != null)
                 {
-                    StopClientThread();
+                    CloseClientThread();
                 }
 
                 lock (_locker)
@@ -117,7 +117,7 @@ namespace FalconICPServer
                     this.OnConnected(new ConnectionEventArgs(ipAddress));
                 }
 
-                logger.Debug("connection established");
+                logger.Debug("Connection established");
 
                 // Run new client thread
                 _running = true;
@@ -130,66 +130,152 @@ namespace FalconICPServer
             catch (SocketException e) { logger.Debug(e); }
             catch (ObjectDisposedException e) { logger.Debug(e); }
             catch (Exception e) { logger.Error(e); }
-
-            logger.Debug("AcceptTCPClientCallback exit");
         }
+
+        /*
+        private void ReadCallback(IAsyncResult asyncResult)
+        {
+            var buffer = (byte[]) asyncResult.AsyncState;
+
+            if (tcpClient == null)
+                return;
+            NetworkStream networkStream = tcpClient.GetStream();
+            int read = networkStream.EndRead(asyncResult);
+            if (read == 0)
+            {
+                logger.Debug("Read 0 bytes");
+                return;
+            }
+
+            var encoding = Encoding.ASCII;
+            string message = encoding.GetString(buffer, 0, read);
+            logger.Debug(message + " " + message.Length);
+
+            switch (message)
+            {
+                case "BYE":
+                    logger.Info("Connection closed by client");
+                    //close connection
+                    return;
+                case "DED":
+                    logger.Debug("ded");
+                    var rawFlightData = _smReader.GetRawPrimaryFlightData();
+
+                    var ded = new byte[130];
+                    var inverted = new byte[130];
+
+                    if (rawFlightData != null)
+                    {
+                        Array.Copy(rawFlightData, 236, ded, 0, 130);
+                        Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
+
+                        for (int i = 0; i < 130; i++)
+                        {
+                            if (inverted[i] == 2)
+                            {
+                                ded[i] += 128;
+                            }
+                        }
+                    }
+                    networkStream.Write(ded, 0, ded.Length);
+
+                    //SEND DED DATA
+                    break;
+                default:
+                    //press_key(message)
+                    break;
+            }
+            
+            networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(ReadCallback), buffer);
+        }
+        */
 
         private void RunClientThread()
         {
             Thread.CurrentThread.Priority = Settings.Default.Priority;
+            Thread.CurrentThread.IsBackground = true;
 
-            if (_smReader != null)
+            NetworkStream networkStream;
+
+            lock (_locker)
             {
-                throw new InvalidOperationException();
+                networkStream = tcpClient.GetStream();
             }
-            _smReader = new Reader();
 
             var ded = new byte[130];
             var inverted = new byte[130];
+            var buffer = new byte[16];
 
-            while (_running)
+            int readBytes = 0;
+
+            try
             {
-                //TODO: send data to client and get messages
-
-                var rawFlightData = _smReader.GetRawPrimaryFlightData();
-
-                if (rawFlightData != null)
+                while((readBytes = networkStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    Array.Copy(rawFlightData, 236, ded, 0, 130);
-                    Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
+                    logger.Debug("read {0} bytes", readBytes);
 
-                    for (int i = 0; i < 130; i++)
+                    //TODO: send data to client and get messages
+
+                    var encoding = Encoding.ASCII;
+                    string message = encoding.GetString(buffer, 0, readBytes);
+                    logger.Debug(message + " " + message.Length);
+
+                    //END TODO
+
+                    var rawFlightData = _smReader.GetRawPrimaryFlightData();
+
+                    if (rawFlightData != null)
                     {
-                        if (inverted[i] == 2)
+                        Array.Copy(rawFlightData, 236, ded, 0, 130);
+                        Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
+
+                        for (int i = 0; i < 130; i++)
                         {
-                            ded[i] += 128;
+                            if (inverted[i] == 2)
+                            {
+                                ded[i] += 128;
+                            }
                         }
                     }
-                }               
-                
-                Thread.Sleep(Settings.Default.UpdatePeriod);
-            }
 
-            tcpClient.Client.Disconnect(false);
-            tcpClient.Close();
-            tcpClient = null;
-            _smReader.Dispose();
-            _smReader = null;
+                    networkStream.Write(ded, 0, ded.Length);
+                }
+            }
+            catch (System.IO.IOException e) { logger.Debug("Connection closed IOException"); }
+
+            CloseConnection();
 
             logger.Debug("client thread finished");
         }
-
+        
         /// <summary>
         /// Disconnects client and closes current thread to avoid having two active connections
         /// </summary>
-        private void StopClientThread()
+        private void CloseConnection()
         {
-            _running = false;
-            clientThread.Join();
-            clientThread = null;
+            lock (_locker)
+            {
+                if (tcpClient != null)
+                {
+                    tcpClient.Client.Disconnect(false);
+                    tcpClient.Close();
+                    tcpClient = null;
+                }
+            }
             this.OnDisconnected(new ConnectionEventArgs(null));
         }
 
+        /// <summary>
+        /// Closes running client thread.
+        /// </summary>
+        private void CloseClientThread()
+        {
+            CloseConnection();
+            clientThread.Join();
+            clientThread = null;
+        }
+
+        /*
         /// <summary>
         /// Merges dedLines into one 250-char string to send it.
         /// </summary>
@@ -218,6 +304,7 @@ namespace FalconICPServer
             }
             return str.ToString();
         }
+        */
 
         private void OnConnected(ConnectionEventArgs e)
         {
