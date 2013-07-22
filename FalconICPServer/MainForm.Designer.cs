@@ -142,6 +142,7 @@
             this.chkMinimizeToSystemTray.TabIndex = 3;
             this.chkMinimizeToSystemTray.Text = "Minimize to System Tray";
             this.chkMinimizeToSystemTray.UseVisualStyleBackColor = true;
+            this.chkMinimizeToSystemTray.CheckedChanged += new System.EventHandler(this.chkMinimizeToSystemTray_CheckedChanged);
             // 
             // chkLaunchMinimized
             // 
@@ -152,6 +153,7 @@
             this.chkLaunchMinimized.TabIndex = 2;
             this.chkLaunchMinimized.Text = "Launch minimized";
             this.chkLaunchMinimized.UseVisualStyleBackColor = true;
+            this.chkLaunchMinimized.CheckedChanged += new System.EventHandler(this.chkLaunchMinimized_CheckedChanged);
             // 
             // chkRunServerOnLaunch
             // 
@@ -162,6 +164,7 @@
             this.chkRunServerOnLaunch.TabIndex = 1;
             this.chkRunServerOnLaunch.Text = "Run server on launch";
             this.chkRunServerOnLaunch.UseVisualStyleBackColor = true;
+            this.chkRunServerOnLaunch.CheckedChanged += new System.EventHandler(this.chkRunServerOnLaunch_CheckedChanged);
             // 
             // chkLaunchAtStartup
             // 
@@ -172,6 +175,7 @@
             this.chkLaunchAtStartup.TabIndex = 0;
             this.chkLaunchAtStartup.Text = "Launch at System Startup";
             this.chkLaunchAtStartup.UseVisualStyleBackColor = true;
+            this.chkLaunchAtStartup.CheckedChanged += new System.EventHandler(this.chkLaunchAtStartup_CheckedChanged);
             // 
             // gbPerformance
             // 
@@ -208,6 +212,7 @@
             0,
             0,
             0});
+            this.nudUpdatePeriod.ValueChanged += new System.EventHandler(this.nudUpdatePeriod_ValueChanged);
             // 
             // cbPriority
             // 
@@ -216,6 +221,7 @@
             this.cbPriority.Name = "cbPriority";
             this.cbPriority.Size = new System.Drawing.Size(79, 21);
             this.cbPriority.TabIndex = 7;
+            this.cbPriority.SelectedIndexChanged += new System.EventHandler(this.cbPriority_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -266,9 +272,9 @@
             this.lbClientIP.AutoSize = true;
             this.lbClientIP.Location = new System.Drawing.Point(107, 71);
             this.lbClientIP.Name = "lbClientIP";
-            this.lbClientIP.Size = new System.Drawing.Size(31, 13);
+            this.lbClientIP.Size = new System.Drawing.Size(10, 13);
             this.lbClientIP.TabIndex = 6;
-            this.lbClientIP.Text = "none";
+            this.lbClientIP.Text = "-";
             // 
             // label2
             // 
@@ -295,6 +301,7 @@
             this.tbServerPort.Size = new System.Drawing.Size(40, 20);
             this.tbServerPort.TabIndex = 3;
             this.tbServerPort.Text = "30456";
+            this.tbServerPort.Leave += new System.EventHandler(this.tbServerPort_Leave);
             // 
             // labelServerPort
             // 

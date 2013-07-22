@@ -77,5 +77,14 @@ namespace FalconICPServer.Properties {
                 return ResourceManager.GetString("ded_info_no_flight_data", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid port number! Port number must be between 0 and 65535..
+        /// </summary>
+        internal static string error_invalid_port {
+            get {
+                return ResourceManager.GetString("error_invalid_port", resourceCulture);
+            }
+        }
     }
 }

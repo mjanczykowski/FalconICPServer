@@ -123,4 +123,7 @@
   <data name="ded_info_no_flight_data" xml:space="preserve">
     <value>Waiting for flight data</value>
   </data>
+  <data name="error_invalid_port" xml:space="preserve">
+    <value>Invalid port number! Port number must be between 0 and 65535.</value>
+  </data>
 </root>

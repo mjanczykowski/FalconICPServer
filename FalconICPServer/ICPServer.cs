@@ -14,8 +14,8 @@ namespace FalconICPServer
 {
     class ICPServer : IDisposable
     {
-        public event EventHandler ConnectionEstablished;
-        public event EventHandler ConnectionLost;
+        public event EventHandler<ConnectionEventArgs> ConnectionEstablished;
+        public event EventHandler<ConnectionEventArgs> ConnectionLost;
 
         /// <summary>
         /// Falcon SharedMemory reader
@@ -30,6 +30,7 @@ namespace FalconICPServer
 
         private TcpListener tcpListener;
         private TcpClient tcpClient;
+        private Thread clientThread;
 
         private static readonly object _locker = new object();
 
@@ -44,8 +45,6 @@ namespace FalconICPServer
             {
                 throw new InvalidOperationException();
             }
-            _running = true;
-            _smReader = new Reader();
 
             var serverPort = Settings.Default.ServerPort;
             var port = 30456;
@@ -56,53 +55,6 @@ namespace FalconICPServer
             tcpListener = new TcpListener(ip, port);
             tcpListener.Start();
             tcpListener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), tcpListener);
-
-            /*
-            while (_running)
-            {
-                /*
-                if (!listener.Pending)
-                {
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    continue;
-                }
-                */
-            /*
-                using (TcpClient client = listener.AcceptTcpClient())
-                {
-                    //var flightData = _smReader.GetRawPrimaryFlightData();
-                    var flightData = _smReader.GetCurrentData();
-                    if (flightData == null)
-                    {
-                        logger.Debug("flightData is null");
-                        flightData = new FlightData();
-                    }
-
-                    var dedLines = flightData.DEDLines;
-                    var invertedDedLines = flightData.Invert;
-
-                    string asd = MergeDEDLines(dedLines, invertedDedLines);
-
-                    StringBuilder str = new StringBuilder();
-                    for (int i = 0; i < asd.Length; i++)
-                    {
-                        str.Append((byte)asd[i]);
-                        str.Append(" ");
-                    }
-                    logger.Debug(asd.Length);
-                    logger.Debug(str.ToString());
-
-                    Thread.Sleep(Settings.Default.UpdatePeriod);
-
-                    client.Close();
-                }
-                //Application.DoEvents();
-            }
-            
-
-            listener.Stop();
-             */
         }
 
 
@@ -112,11 +64,14 @@ namespace FalconICPServer
         public void Stop()
         {
             logger.Debug("Stop()");
-            /*
-            _running = false;
-            listener.Stop();
-            */
 
+            if (clientThread != null)
+            {
+                StopClientThread();
+            }
+
+            _running = false;
+            
             tcpListener.Stop();
 
             lock (_locker)
@@ -124,6 +79,8 @@ namespace FalconICPServer
                 if (tcpClient != null)
                 {
                     tcpClient.Client.Disconnect(false);
+                    tcpClient.Close();
+                    tcpClient = null;
                 }
             }
         }
@@ -146,36 +103,95 @@ namespace FalconICPServer
 
             try
             {
+                // Close connection if we're still connected or it's broken
+                if (clientThread != null)
+                {
+                    StopClientThread();
+                }
+
                 lock (_locker)
                 {
-                    // Close connection if we're still connected or it's broken
-                    if (tcpClient != null)
-                    {
-                        tcpClient.Client.Disconnect(false);
-                        tcpClient.Close();
-                        tcpClient = null;
-                    }
                     tcpClient = listener.EndAcceptTcpClient(asyncResult);
-                    this.OnConnected(EventArgs.Empty);
 
-                    logger.Debug("connection established");
-                    /*
-                    NetworkStream networkStream = tcpClient.GetStream();
-                    networkStream.BeginRead(
-                    */
+                    var ipAddress = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
+                    this.OnConnected(new ConnectionEventArgs(ipAddress));
                 }
-            }
-            catch (SocketException e) { logger.Debug(e);  }
-            catch (ObjectDisposedException e) { logger.Debug(e); }
 
-            // Listen for next connection (in case the current gets broken, etc.)
-            listener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), listener);
+                logger.Debug("connection established");
+
+                // Run new client thread
+                _running = true;
+                clientThread = new Thread(RunClientThread);
+                clientThread.Start();
+
+                // Listen for next connection (in case the current gets broken, etc.)
+                listener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), listener);
+            }
+            catch (SocketException e) { logger.Debug(e); }
+            catch (ObjectDisposedException e) { logger.Debug(e); }
+            catch (Exception e) { logger.Error(e); }
 
             logger.Debug("AcceptTCPClientCallback exit");
         }
 
+        private void RunClientThread()
+        {
+            Thread.CurrentThread.Priority = Settings.Default.Priority;
+
+            if (_smReader != null)
+            {
+                throw new InvalidOperationException();
+            }
+            _smReader = new Reader();
+
+            var ded = new byte[130];
+            var inverted = new byte[130];
+
+            while (_running)
+            {
+                //TODO: send data to client and get messages
+
+                var rawFlightData = _smReader.GetRawPrimaryFlightData();
+
+                if (rawFlightData != null)
+                {
+                    Array.Copy(rawFlightData, 236, ded, 0, 130);
+                    Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
+
+                    for (int i = 0; i < 130; i++)
+                    {
+                        if (inverted[i] == 2)
+                        {
+                            ded[i] += 128;
+                        }
+                    }
+                }               
+                
+                Thread.Sleep(Settings.Default.UpdatePeriod);
+            }
+
+            tcpClient.Client.Disconnect(false);
+            tcpClient.Close();
+            tcpClient = null;
+            _smReader.Dispose();
+            _smReader = null;
+
+            logger.Debug("client thread finished");
+        }
+
         /// <summary>
-        /// Merges dedLines into one 200-char string to send it.
+        /// Disconnects client and closes current thread to avoid having two active connections
+        /// </summary>
+        private void StopClientThread()
+        {
+            _running = false;
+            clientThread.Join();
+            clientThread = null;
+            this.OnDisconnected(new ConnectionEventArgs(null));
+        }
+
+        /// <summary>
+        /// Merges dedLines into one 250-char string to send it.
         /// </summary>
         /// <param name="dedLines">DED Lines from Shared Memory</param>
         /// <param name="invertedDedLines">Inverted DED Lines from Shared Memory</param>
@@ -203,16 +219,15 @@ namespace FalconICPServer
             return str.ToString();
         }
 
-        private void OnConnected(EventArgs e)
+        private void OnConnected(ConnectionEventArgs e)
         {
-            logger.Debug("OnConnected");
             if (ConnectionEstablished != null)
             {
                 ConnectionEstablished(this, e);
             }
         }
 
-        private void OnDisconnected(EventArgs e)
+        private void OnDisconnected(ConnectionEventArgs e)
         {
             if (ConnectionLost != null)
             {
@@ -237,11 +252,26 @@ namespace FalconICPServer
                 if(disposing && _smReader != null)
                     try
                     {
-                        _smReader.Dispose();
+                        //_smReader.Dispose();
                     }
                     catch(Exception) {}
                 }
                 _disposed = true;
+        }
+    }
+
+    public class ConnectionEventArgs : EventArgs
+    {
+        private readonly string ipAddress;
+
+        public ConnectionEventArgs(string ipAddress)
+        {
+            this.ipAddress = ipAddress;
+        }
+
+        public string IpAddress
+        {
+            get { return ipAddress; }
         }
     }
 }

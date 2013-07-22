@@ -17,7 +17,6 @@ namespace FalconICPServer
     public partial class MainForm : Form
     {
         private ICPServer icpServer;
-        private Thread serverThread;
         private Logger logger = LogManager.GetCurrentClassLogger();
 
         public MainForm()
@@ -43,25 +42,17 @@ namespace FalconICPServer
 
             var portNum = 30456;
             Int32.TryParse(Settings.Default.ServerPort, out portNum);
-            
-            if (icpServer == null)
-            {
-                icpServer = new ICPServer();
-                icpServer.ConnectionEstablished += new EventHandler(IcpServer_ConnectionEstablished);
-            }
-            
-
-            //icpServer = new ICPServer();
-            serverThread = new Thread(icpServer.Start);
-            serverThread.Start();
-            //icpServer.Start();
-
-            tsbStart.Enabled = false;
 
             if (icpServer != null)
             {
-                //icpServer.Stop();
+                StopServer();
             }
+
+            icpServer = new ICPServer();
+            icpServer.ConnectionEstablished += new EventHandler<ConnectionEventArgs>(IcpServer_ConnectionEstablished);
+            icpServer.ConnectionLost += new EventHandler<ConnectionEventArgs>(IcpServer_ConnectionLost);
+            
+            tsbStart.Enabled = false;
 
             gbConnection.Enabled = false;
             gbPerformance.Enabled = false;
@@ -81,7 +72,7 @@ namespace FalconICPServer
 
             tsbStop.Enabled = true;
 
-            //icpServer.Start();
+            icpServer.Start();
         }
 
         private void StopServer()
@@ -91,18 +82,15 @@ namespace FalconICPServer
 
             tsbStop.Enabled = false;
 
-            if (icpServer != null)
+            icpServer.Stop();
+            try
             {
-                icpServer.Stop();
-                try
-                {
-                    icpServer.Dispose();
-                    icpServer = null;
-                }
-                catch (Exception e)
-                {
-                    logger.Debug(e);
-                }
+                icpServer.Dispose();
+                icpServer = null;
+            }
+            catch (Exception e)
+            {
+                logger.Debug(e);
             }
 
             gbConnection.Enabled = true;
@@ -151,10 +139,14 @@ namespace FalconICPServer
             LoadSettings();
         }
 
-        private void IcpServer_ConnectionEstablished(object sender, EventArgs eventArgs)
+        private void IcpServer_ConnectionEstablished(object sender, ConnectionEventArgs e)
         {
-            logger.Debug("IcpServer_ConnectionEstablished");
-            
+            lbClientIP.Invoke((MethodInvoker)(() => lbClientIP.Text = e.IpAddress));
+        }
+
+        private void IcpServer_ConnectionLost(object sender, ConnectionEventArgs e)
+        {
+            lbClientIP.Invoke((MethodInvoker)(() => lbClientIP.Text = "-"));
         }
 
         private void LoadSettings()
@@ -167,6 +159,62 @@ namespace FalconICPServer
             tbServerPort.Text = Settings.Default.ServerPort;
             nudUpdatePeriod.Value = Settings.Default.UpdatePeriod;
             cbPriority.SelectedItem = Enum.GetName(typeof(ThreadPriority), Settings.Default.Priority);
+        }
+
+        private void cbPriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedPriority = (ThreadPriority)Enum.Parse(typeof(ThreadPriority), (string)cbPriority.SelectedItem);
+            Settings.Default.Priority = selectedPriority;
+            Settings.Default.Save();
+        }
+
+        private void nudUpdatePeriod_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Default.UpdatePeriod = (int)nudUpdatePeriod.Value;
+            Settings.Default.Save();
+        }
+
+        private void tbServerPort_Leave(object sender, EventArgs e)
+        {
+            var serverPort = -1;
+            var parsed = Int32.TryParse(tbServerPort.Text, out serverPort);
+            if (!parsed || serverPort < 0 || serverPort > 65535)
+            {
+                MessageBox.Show(Properties.Resources.error_invalid_port, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbServerPort.Text = Settings.Default.ServerPort;
+                tbServerPort.Focus();
+            }
+            else
+            {
+                Settings.Default.ServerPort = tbServerPort.Text;
+                Settings.Default.Save();
+            }
+        }
+
+        private void chkRunServerOnLaunch_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.RunServerOnLaunch = chkRunServerOnLaunch.Checked;
+            Settings.Default.Save();
+        }
+
+        private void chkLaunchMinimized_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.LaunchMinimized = chkLaunchMinimized.Checked;
+            Settings.Default.Save();
+        }
+
+        private void chkMinimizeToSystemTray_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.MinimizeToSystemTray = chkMinimizeToSystemTray.Checked;
+            Settings.Default.Save();
+        }
+
+        private void chkLaunchAtStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            //TODO
+
+            Settings.Default.LaunchAtWindowsStartup = chkLaunchAtStartup.Checked;
+            Settings.Default.Save();
         }
     }
 }
