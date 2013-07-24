@@ -80,6 +80,7 @@
             this.tbSimICPTILS = new System.Windows.Forms.TextBox();
             this.labelICP2 = new System.Windows.Forms.Label();
             this.labelICP1 = new System.Windows.Forms.Label();
+            this.labelNorm = new System.Windows.Forms.Label();
             this.labelWarnReset = new System.Windows.Forms.Label();
             this.labelDriftCO = new System.Windows.Forms.Label();
             this.labelRCL = new System.Windows.Forms.Label();
@@ -110,7 +111,6 @@
             this.btnSaveKeyfile = new System.Windows.Forms.Button();
             this.btnOpenKeyfile = new System.Windows.Forms.Button();
             this.labelKeyfile = new System.Windows.Forms.Label();
-            this.labelNorm = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
@@ -714,6 +714,15 @@
             this.labelICP1.TabIndex = 9;
             this.labelICP1.Text = "ICP 1:";
             // 
+            // labelNorm
+            // 
+            this.labelNorm.AutoSize = true;
+            this.labelNorm.Location = new System.Drawing.Point(-2, 261);
+            this.labelNorm.Name = "labelNorm";
+            this.labelNorm.Size = new System.Drawing.Size(62, 13);
+            this.labelNorm.TabIndex = 48;
+            this.labelNorm.Text = "DRIFT/CO:";
+            // 
             // labelWarnReset
             // 
             this.labelWarnReset.AutoSize = true;
@@ -1001,15 +1010,6 @@
             this.labelKeyfile.Size = new System.Drawing.Size(41, 13);
             this.labelKeyfile.TabIndex = 4;
             this.labelKeyfile.Text = "Keyfile:";
-            // 
-            // labelNorm
-            // 
-            this.labelNorm.AutoSize = true;
-            this.labelNorm.Location = new System.Drawing.Point(-2, 261);
-            this.labelNorm.Name = "labelNorm";
-            this.labelNorm.Size = new System.Drawing.Size(62, 13);
-            this.labelNorm.TabIndex = 48;
-            this.labelNorm.Text = "DRIFT/CO:";
             // 
             // MainForm
             // 

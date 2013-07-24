@@ -17,6 +17,7 @@ namespace FalconICPServer
     {
         public event EventHandler<ConnectionEventArgs> ConnectionEstablished;
         public event EventHandler<ConnectionEventArgs> ConnectionLost;
+        public event EventHandler<ButtonPressEventArgs> ButtonPressed;
 
         /// <summary>
         /// Falcon SharedMemory reader
@@ -204,7 +205,7 @@ namespace FalconICPServer
 
             var ded = new byte[130];
             var inverted = new byte[130];
-            var buffer = new byte[16];
+            var buffer = new byte[32];
 
             int readBytes = 0;
 
@@ -219,6 +220,11 @@ namespace FalconICPServer
                     var encoding = Encoding.ASCII;
                     string message = encoding.GetString(buffer, 0, readBytes);
                     logger.Debug(message + " " + message.Length);
+
+                    if (!message.Equals("ded"))
+                    {
+                        this.OnButtonPressed(new ButtonPressEventArgs(message));
+                    }
 
                     //END TODO
 
@@ -238,18 +244,13 @@ namespace FalconICPServer
                         }
                     }
 
-                    Thread.Sleep(3000);
-                    SendKeyInput.KeyPress(ScanCode.P);
-
-                    
-
                     networkStream.Write(ded, 0, ded.Length);
                 }
+                CloseConnection();
             }
             catch (System.IO.IOException) { logger.Debug("Connection closed IOException"); }
 
-            CloseConnection();
-
+            this.OnDisconnected(new ConnectionEventArgs(null));
             logger.Debug("client thread finished");
         }
         
@@ -267,7 +268,6 @@ namespace FalconICPServer
                     tcpClient = null;
                 }
             }
-            this.OnDisconnected(new ConnectionEventArgs(null));
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace FalconICPServer
         private void CloseClientThread()
         {
             CloseConnection();
-            clientThread.Join();
+            //clientThread.Join();
             clientThread = null;
         }
 
@@ -327,6 +327,14 @@ namespace FalconICPServer
             }
         }
 
+        private void OnButtonPressed(ButtonPressEventArgs e)
+        {
+            if (ButtonPressed != null)
+            {
+                ButtonPressed(this, e);
+            }
+        }
+
         #region IDisposable Members
 
         public void Dispose()
@@ -364,6 +372,21 @@ namespace FalconICPServer
         public string IpAddress
         {
             get { return ipAddress; }
+        }
+    }
+
+    public class ButtonPressEventArgs : EventArgs
+    {
+        private readonly string callback;
+
+        public ButtonPressEventArgs(string callback)
+        {
+            this.callback = callback;
+        }
+
+        public string Callback
+        {
+            get { return callback; }
         }
     }
 }

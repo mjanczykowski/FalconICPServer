@@ -19,9 +19,9 @@ namespace FalconICPServer
     public partial class MainForm : Form
     {
         private ICPServer icpServer;
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private KeyfileState keyfileState = new KeyfileState();
-        private Dictionary<string, TextBox> callbackToTextBox = new Dictionary<string,TextBox>();
+        private Dictionary<string, TextBox> callbackToTextBox = new Dictionary<string, TextBox>();
 
         public MainForm()
         {
@@ -57,6 +57,7 @@ namespace FalconICPServer
             icpServer = new ICPServer();
             icpServer.ConnectionEstablished += new EventHandler<ConnectionEventArgs>(IcpServer_ConnectionEstablished);
             icpServer.ConnectionLost += new EventHandler<ConnectionEventArgs>(IcpServer_ConnectionLost);
+            icpServer.ButtonPressed += new EventHandler<ButtonPressEventArgs>(IcpServer_ButtonPressed);
             
             tsbStart.Enabled = false;
 
@@ -159,6 +160,15 @@ namespace FalconICPServer
             lbClientIP.Invoke((MethodInvoker)(() => lbClientIP.Text = "-"));
         }
 
+        private void IcpServer_ButtonPressed(object sender, ButtonPressEventArgs e)
+        {
+            KeyBinding keystroke;
+            if (keyfileState.bindings.TryGetValue(e.Callback, out keystroke))
+            {
+                KeyfileUtils.SendKeystroke(keystroke);
+            }
+        }
+
         private void LoadSettings()
         {
             Settings.Default.Reload();
@@ -222,6 +232,9 @@ namespace FalconICPServer
 
         }
 
+        /// <summary>
+        /// Parses keyfile, sets text for TextBoxes and creates dictionaries.
+        /// </summary>
         private void ParseKeyFile()
         {
             if (keyfileState.keyfile == null) throw new InvalidOperationException();
@@ -242,7 +255,7 @@ namespace FalconICPServer
                 callbackToTextBox.Add("SimICPDEDSEQ", tbSimICPDEDSEQ);
                 callbackToTextBox.Add("SimICPResetDED", tbSimICPResetDED);
                 callbackToTextBox.Add("SimICPCLEAR", tbSimICPCLEAR);
-                callbackToTextBox.Add("SimICPTILS", tbSimICPTILS);
+                callbackToTextBox.Add("OTWToggleFrameRate", tbSimICPTILS);
                 callbackToTextBox.Add("SimICPALOW", tbSimICPALOW);
                 callbackToTextBox.Add("SimICPTHREE", tbSimICPTHREE);
                 callbackToTextBox.Add("SimICPStpt", tbSimICPStpt);
@@ -260,13 +273,27 @@ namespace FalconICPServer
                 #endregion
             }
 
+            if (keyfileState.bindings.Count > 0) keyfileState.bindings.Clear();
+
             foreach (var pair in callbackToTextBox)
             {
                 var binding = keyfileState.keyfile.FindBindingForCallback(pair.Key);
                 if (binding is KeyBinding)
                 {
                     var keyBinding = binding as KeyBinding;
-                    pair.Value.Text = keyBinding.Key.ToString();
+                    keyfileState.bindings.Add(pair.Key, keyBinding);
+
+                    string desc = KeyfileUtils.GetKeyDescription(keyBinding);
+                    if (desc == null)
+                    {
+                        pair.Value.BackColor = Color.LightCoral;
+                        pair.Value.Text = "";
+                    }
+                    else
+                    {
+                        pair.Value.BackColor = (Color)System.Drawing.SystemColors.Window;
+                        pair.Value.Text = desc;
+                    }
                 }
             }
         }
@@ -360,12 +387,14 @@ namespace FalconICPServer
                                                    "SimICPNINE",
                                                    "SimICPZERO",
                                                    "SimICPEnter",
-                                                   "SimICPLink",
                                                    "SimICPNext",
                                                    "SimICPPrevious",
                                                    "SimDriftCOOn",
-                                                   "SimDriftCOOff" };
+                                                   "SimDriftCOOff",
+                                                   "OTWToggleFrameRate" };
             #endregion
+
+            public Dictionary<string, KeyBinding> bindings = new Dictionary<string, KeyBinding>();
         }
     }
 }
