@@ -106,9 +106,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SVN\LightningTools\trunk\F4KeyFile\F4KeyFile.csproj">
+      <Project>{eeed5595-6eb8-473d-b487-334b45d753a6}</Project>
+      <Name>F4KeyFile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\SVN\LightningTools\trunk\F4SharedMem\F4SharedMem.csproj">
       <Project>{517d1b4d-e8c7-4331-bbe7-300fd6b78441}</Project>
       <Name>F4SharedMem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyboardInput\KeyboardInput.csproj">
+      <Project>{627e3000-3e94-44fa-99bd-e8b70c02df62}</Project>
+      <Name>KeyboardInput</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

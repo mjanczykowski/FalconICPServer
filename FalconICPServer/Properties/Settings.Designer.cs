@@ -106,5 +106,14 @@ namespace FalconICPServer.Properties {
                 this["Priority"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Gry\\Falcon BMS 4.32\\User\\Config\\BMS.key")]
+        public string KeyfilePath {
+            get {
+                return ((string)(this["KeyfilePath"]));
+            }
+        }
     }
 }

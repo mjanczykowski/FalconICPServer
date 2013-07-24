@@ -53,6 +53,64 @@
             this.labelServerPort = new System.Windows.Forms.Label();
             this.labelServerIP = new System.Windows.Forms.Label();
             this.tabKeystrokes = new System.Windows.Forms.TabPage();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.labelENTR = new System.Windows.Forms.Label();
+            this.labelICSDown = new System.Windows.Forms.Label();
+            this.labelICSUp = new System.Windows.Forms.Label();
+            this.labelICP0 = new System.Windows.Forms.Label();
+            this.labelICP9 = new System.Windows.Forms.Label();
+            this.labelICP8 = new System.Windows.Forms.Label();
+            this.labelICP7 = new System.Windows.Forms.Label();
+            this.labelICP6 = new System.Windows.Forms.Label();
+            this.labelICP5 = new System.Windows.Forms.Label();
+            this.labelICP4 = new System.Windows.Forms.Label();
+            this.tbSimICPEnter = new System.Windows.Forms.TextBox();
+            this.tbSimICPPrevious = new System.Windows.Forms.TextBox();
+            this.tbSimICPNext = new System.Windows.Forms.TextBox();
+            this.tbSimICPZERO = new System.Windows.Forms.TextBox();
+            this.tbSimICPNINE = new System.Windows.Forms.TextBox();
+            this.tbSimICPEIGHT = new System.Windows.Forms.TextBox();
+            this.tbSimICPMark = new System.Windows.Forms.TextBox();
+            this.tbSimICPSIX = new System.Windows.Forms.TextBox();
+            this.tbSimICPCrus = new System.Windows.Forms.TextBox();
+            this.tbSimICPStpt = new System.Windows.Forms.TextBox();
+            this.tbSimICPTHREE = new System.Windows.Forms.TextBox();
+            this.tbSimICPALOW = new System.Windows.Forms.TextBox();
+            this.labelICP3 = new System.Windows.Forms.Label();
+            this.tbSimICPTILS = new System.Windows.Forms.TextBox();
+            this.labelICP2 = new System.Windows.Forms.Label();
+            this.labelICP1 = new System.Windows.Forms.Label();
+            this.labelWarnReset = new System.Windows.Forms.Label();
+            this.labelDriftCO = new System.Windows.Forms.Label();
+            this.labelRCL = new System.Windows.Forms.Label();
+            this.labelCOM1 = new System.Windows.Forms.Label();
+            this.labelDCSSeq = new System.Windows.Forms.Label();
+            this.labelDCSRet = new System.Windows.Forms.Label();
+            this.labelDCSDown = new System.Windows.Forms.Label();
+            this.labelDCSUp = new System.Windows.Forms.Label();
+            this.labelAG = new System.Windows.Forms.Label();
+            this.labelAA = new System.Windows.Forms.Label();
+            this.tbSimWarnReset = new System.Windows.Forms.TextBox();
+            this.tbSimDriftCOOff = new System.Windows.Forms.TextBox();
+            this.tbSimDriftCOOn = new System.Windows.Forms.TextBox();
+            this.tbSimICPDEDSEQ = new System.Windows.Forms.TextBox();
+            this.tbSimICPResetDED = new System.Windows.Forms.TextBox();
+            this.tbSimICPDEDDOWN = new System.Windows.Forms.TextBox();
+            this.tbSimICPDEDUP = new System.Windows.Forms.TextBox();
+            this.tbSimICPAG = new System.Windows.Forms.TextBox();
+            this.tbSimICPAA = new System.Windows.Forms.TextBox();
+            this.tbSimICPLIST = new System.Windows.Forms.TextBox();
+            this.tbSimICPCom2 = new System.Windows.Forms.TextBox();
+            this.tbSimICPCom1 = new System.Windows.Forms.TextBox();
+            this.tbSimICPCLEAR = new System.Windows.Forms.TextBox();
+            this.labelLIST = new System.Windows.Forms.Label();
+            this.labelCOM2 = new System.Windows.Forms.Label();
+            this.panelKeyfile = new System.Windows.Forms.Panel();
+            this.tbKeyfile = new System.Windows.Forms.TextBox();
+            this.btnSaveKeyfile = new System.Windows.Forms.Button();
+            this.btnOpenKeyfile = new System.Windows.Forms.Button();
+            this.labelKeyfile = new System.Windows.Forms.Label();
+            this.labelNorm = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
@@ -60,6 +118,12 @@
             this.gbPerformance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).BeginInit();
             this.gbConnection.SuspendLayout();
+            this.tabKeystrokes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
+            this.panelKeyfile.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -71,7 +135,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStrip1.Size = new System.Drawing.Size(319, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(331, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -103,7 +167,7 @@
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(319, 332);
+            this.tabControl.Size = new System.Drawing.Size(331, 363);
             this.tabControl.TabIndex = 1;
             // 
             // tabConnection
@@ -114,7 +178,7 @@
             this.tabConnection.Location = new System.Drawing.Point(4, 22);
             this.tabConnection.Name = "tabConnection";
             this.tabConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConnection.Size = new System.Drawing.Size(311, 306);
+            this.tabConnection.Size = new System.Drawing.Size(323, 337);
             this.tabConnection.TabIndex = 0;
             this.tabConnection.Text = "Connection Settings";
             this.tabConnection.UseVisualStyleBackColor = true;
@@ -126,9 +190,9 @@
             this.gbGeneral.Controls.Add(this.chkRunServerOnLaunch);
             this.gbGeneral.Controls.Add(this.chkLaunchAtStartup);
             this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbGeneral.Location = new System.Drawing.Point(3, 191);
+            this.gbGeneral.Location = new System.Drawing.Point(3, 222);
             this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Size = new System.Drawing.Size(305, 112);
+            this.gbGeneral.Size = new System.Drawing.Size(317, 112);
             this.gbGeneral.TabIndex = 2;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General Settings";
@@ -186,7 +250,7 @@
             this.gbPerformance.Controls.Add(this.labelUpdatePeriod);
             this.gbPerformance.Location = new System.Drawing.Point(3, 109);
             this.gbPerformance.Name = "gbPerformance";
-            this.gbPerformance.Size = new System.Drawing.Size(305, 75);
+            this.gbPerformance.Size = new System.Drawing.Size(317, 75);
             this.gbPerformance.TabIndex = 1;
             this.gbPerformance.TabStop = false;
             this.gbPerformance.Text = "Performance";
@@ -262,7 +326,7 @@
             this.gbConnection.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbConnection.Location = new System.Drawing.Point(3, 3);
             this.gbConnection.Name = "gbConnection";
-            this.gbConnection.Size = new System.Drawing.Size(305, 100);
+            this.gbConnection.Size = new System.Drawing.Size(317, 100);
             this.gbConnection.TabIndex = 0;
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "Connection";
@@ -323,20 +387,635 @@
             // 
             // tabKeystrokes
             // 
+            this.tabKeystrokes.Controls.Add(this.splitContainer);
+            this.tabKeystrokes.Controls.Add(this.panelKeyfile);
             this.tabKeystrokes.Location = new System.Drawing.Point(4, 22);
             this.tabKeystrokes.Name = "tabKeystrokes";
             this.tabKeystrokes.Padding = new System.Windows.Forms.Padding(3);
             this.tabKeystrokes.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabKeystrokes.Size = new System.Drawing.Size(311, 306);
+            this.tabKeystrokes.Size = new System.Drawing.Size(323, 337);
             this.tabKeystrokes.TabIndex = 1;
             this.tabKeystrokes.Text = "Keystrokes";
             this.tabKeystrokes.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer
+            // 
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.IsSplitterFixed = true;
+            this.splitContainer.Location = new System.Drawing.Point(3, 33);
+            this.splitContainer.Name = "splitContainer";
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.labelENTR);
+            this.splitContainer.Panel1.Controls.Add(this.labelICSDown);
+            this.splitContainer.Panel1.Controls.Add(this.labelICSUp);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP0);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP9);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP8);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP7);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP6);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP5);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP4);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPEnter);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPPrevious);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPNext);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPZERO);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPNINE);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPEIGHT);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPMark);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPSIX);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPCrus);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPStpt);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPTHREE);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPALOW);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP3);
+            this.splitContainer.Panel1.Controls.Add(this.tbSimICPTILS);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP2);
+            this.splitContainer.Panel1.Controls.Add(this.labelICP1);
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.labelNorm);
+            this.splitContainer.Panel2.Controls.Add(this.labelWarnReset);
+            this.splitContainer.Panel2.Controls.Add(this.labelDriftCO);
+            this.splitContainer.Panel2.Controls.Add(this.labelRCL);
+            this.splitContainer.Panel2.Controls.Add(this.labelCOM1);
+            this.splitContainer.Panel2.Controls.Add(this.labelDCSSeq);
+            this.splitContainer.Panel2.Controls.Add(this.labelDCSRet);
+            this.splitContainer.Panel2.Controls.Add(this.labelDCSDown);
+            this.splitContainer.Panel2.Controls.Add(this.labelDCSUp);
+            this.splitContainer.Panel2.Controls.Add(this.labelAG);
+            this.splitContainer.Panel2.Controls.Add(this.labelAA);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimWarnReset);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimDriftCOOff);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimDriftCOOn);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPDEDSEQ);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPResetDED);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPDEDDOWN);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPDEDUP);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPAG);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPAA);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPLIST);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPCom2);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPCom1);
+            this.splitContainer.Panel2.Controls.Add(this.tbSimICPCLEAR);
+            this.splitContainer.Panel2.Controls.Add(this.labelLIST);
+            this.splitContainer.Panel2.Controls.Add(this.labelCOM2);
+            this.splitContainer.Size = new System.Drawing.Size(317, 301);
+            this.splitContainer.SplitterDistance = 156;
+            this.splitContainer.SplitterWidth = 1;
+            this.splitContainer.TabIndex = 5;
+            // 
+            // labelENTR
+            // 
+            this.labelENTR.AutoSize = true;
+            this.labelENTR.Location = new System.Drawing.Point(-3, 283);
+            this.labelENTR.Name = "labelENTR";
+            this.labelENTR.Size = new System.Drawing.Size(40, 13);
+            this.labelENTR.TabIndex = 34;
+            this.labelENTR.Text = "ENTR:";
+            // 
+            // labelICSDown
+            // 
+            this.labelICSDown.AutoSize = true;
+            this.labelICSDown.Location = new System.Drawing.Point(-3, 261);
+            this.labelICSDown.Name = "labelICSDown";
+            this.labelICSDown.Size = new System.Drawing.Size(58, 13);
+            this.labelICSDown.TabIndex = 33;
+            this.labelICSDown.Text = "ICP Down:";
+            // 
+            // labelICSUp
+            // 
+            this.labelICSUp.AutoSize = true;
+            this.labelICSUp.Location = new System.Drawing.Point(-3, 237);
+            this.labelICSUp.Name = "labelICSUp";
+            this.labelICSUp.Size = new System.Drawing.Size(44, 13);
+            this.labelICSUp.TabIndex = 32;
+            this.labelICSUp.Text = "ICP Up:";
+            // 
+            // labelICP0
+            // 
+            this.labelICP0.AutoSize = true;
+            this.labelICP0.Location = new System.Drawing.Point(-3, 215);
+            this.labelICP0.Name = "labelICP0";
+            this.labelICP0.Size = new System.Drawing.Size(36, 13);
+            this.labelICP0.TabIndex = 31;
+            this.labelICP0.Text = "ICP 0:";
+            // 
+            // labelICP9
+            // 
+            this.labelICP9.AutoSize = true;
+            this.labelICP9.Location = new System.Drawing.Point(-3, 192);
+            this.labelICP9.Name = "labelICP9";
+            this.labelICP9.Size = new System.Drawing.Size(36, 13);
+            this.labelICP9.TabIndex = 30;
+            this.labelICP9.Text = "ICP 9:";
+            // 
+            // labelICP8
+            // 
+            this.labelICP8.AutoSize = true;
+            this.labelICP8.Location = new System.Drawing.Point(-3, 169);
+            this.labelICP8.Name = "labelICP8";
+            this.labelICP8.Size = new System.Drawing.Size(36, 13);
+            this.labelICP8.TabIndex = 29;
+            this.labelICP8.Text = "ICP 8:";
+            // 
+            // labelICP7
+            // 
+            this.labelICP7.AutoSize = true;
+            this.labelICP7.Location = new System.Drawing.Point(-3, 146);
+            this.labelICP7.Name = "labelICP7";
+            this.labelICP7.Size = new System.Drawing.Size(36, 13);
+            this.labelICP7.TabIndex = 28;
+            this.labelICP7.Text = "ICP 7:";
+            // 
+            // labelICP6
+            // 
+            this.labelICP6.AutoSize = true;
+            this.labelICP6.Location = new System.Drawing.Point(-3, 122);
+            this.labelICP6.Name = "labelICP6";
+            this.labelICP6.Size = new System.Drawing.Size(36, 13);
+            this.labelICP6.TabIndex = 27;
+            this.labelICP6.Text = "ICP 6:";
+            // 
+            // labelICP5
+            // 
+            this.labelICP5.AutoSize = true;
+            this.labelICP5.Location = new System.Drawing.Point(-3, 99);
+            this.labelICP5.Name = "labelICP5";
+            this.labelICP5.Size = new System.Drawing.Size(36, 13);
+            this.labelICP5.TabIndex = 26;
+            this.labelICP5.Text = "ICP 5:";
+            // 
+            // labelICP4
+            // 
+            this.labelICP4.AutoSize = true;
+            this.labelICP4.Location = new System.Drawing.Point(-3, 76);
+            this.labelICP4.Name = "labelICP4";
+            this.labelICP4.Size = new System.Drawing.Size(36, 13);
+            this.labelICP4.TabIndex = 25;
+            this.labelICP4.Text = "ICP 4:";
+            // 
+            // tbSimICPEnter
+            // 
+            this.tbSimICPEnter.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPEnter.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPEnter.Location = new System.Drawing.Point(61, 280);
+            this.tbSimICPEnter.Name = "tbSimICPEnter";
+            this.tbSimICPEnter.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPEnter.TabIndex = 24;
+            // 
+            // tbSimICPPrevious
+            // 
+            this.tbSimICPPrevious.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPPrevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPPrevious.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPPrevious.Location = new System.Drawing.Point(61, 258);
+            this.tbSimICPPrevious.Name = "tbSimICPPrevious";
+            this.tbSimICPPrevious.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPPrevious.TabIndex = 23;
+            // 
+            // tbSimICPNext
+            // 
+            this.tbSimICPNext.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPNext.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPNext.Location = new System.Drawing.Point(61, 235);
+            this.tbSimICPNext.Name = "tbSimICPNext";
+            this.tbSimICPNext.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPNext.TabIndex = 22;
+            // 
+            // tbSimICPZERO
+            // 
+            this.tbSimICPZERO.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPZERO.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPZERO.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPZERO.Location = new System.Drawing.Point(61, 212);
+            this.tbSimICPZERO.Name = "tbSimICPZERO";
+            this.tbSimICPZERO.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPZERO.TabIndex = 21;
+            // 
+            // tbSimICPNINE
+            // 
+            this.tbSimICPNINE.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPNINE.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPNINE.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPNINE.Location = new System.Drawing.Point(61, 189);
+            this.tbSimICPNINE.Name = "tbSimICPNINE";
+            this.tbSimICPNINE.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPNINE.TabIndex = 20;
+            // 
+            // tbSimICPEIGHT
+            // 
+            this.tbSimICPEIGHT.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPEIGHT.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPEIGHT.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPEIGHT.Location = new System.Drawing.Point(61, 166);
+            this.tbSimICPEIGHT.Name = "tbSimICPEIGHT";
+            this.tbSimICPEIGHT.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPEIGHT.TabIndex = 19;
+            // 
+            // tbSimICPMark
+            // 
+            this.tbSimICPMark.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPMark.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPMark.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPMark.Location = new System.Drawing.Point(61, 143);
+            this.tbSimICPMark.Name = "tbSimICPMark";
+            this.tbSimICPMark.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPMark.TabIndex = 18;
+            // 
+            // tbSimICPSIX
+            // 
+            this.tbSimICPSIX.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPSIX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPSIX.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPSIX.Location = new System.Drawing.Point(61, 120);
+            this.tbSimICPSIX.Name = "tbSimICPSIX";
+            this.tbSimICPSIX.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPSIX.TabIndex = 17;
+            // 
+            // tbSimICPCrus
+            // 
+            this.tbSimICPCrus.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPCrus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPCrus.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPCrus.Location = new System.Drawing.Point(61, 97);
+            this.tbSimICPCrus.Name = "tbSimICPCrus";
+            this.tbSimICPCrus.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPCrus.TabIndex = 16;
+            // 
+            // tbSimICPStpt
+            // 
+            this.tbSimICPStpt.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPStpt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPStpt.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPStpt.Location = new System.Drawing.Point(61, 74);
+            this.tbSimICPStpt.Name = "tbSimICPStpt";
+            this.tbSimICPStpt.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPStpt.TabIndex = 15;
+            // 
+            // tbSimICPTHREE
+            // 
+            this.tbSimICPTHREE.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPTHREE.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPTHREE.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPTHREE.Location = new System.Drawing.Point(61, 51);
+            this.tbSimICPTHREE.Name = "tbSimICPTHREE";
+            this.tbSimICPTHREE.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPTHREE.TabIndex = 14;
+            // 
+            // tbSimICPALOW
+            // 
+            this.tbSimICPALOW.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPALOW.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPALOW.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPALOW.Location = new System.Drawing.Point(61, 28);
+            this.tbSimICPALOW.Name = "tbSimICPALOW";
+            this.tbSimICPALOW.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPALOW.TabIndex = 13;
+            // 
+            // labelICP3
+            // 
+            this.labelICP3.AutoSize = true;
+            this.labelICP3.Location = new System.Drawing.Point(-3, 54);
+            this.labelICP3.Name = "labelICP3";
+            this.labelICP3.Size = new System.Drawing.Size(36, 13);
+            this.labelICP3.TabIndex = 12;
+            this.labelICP3.Text = "ICP 3:";
+            // 
+            // tbSimICPTILS
+            // 
+            this.tbSimICPTILS.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPTILS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPTILS.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPTILS.Location = new System.Drawing.Point(61, 5);
+            this.tbSimICPTILS.Name = "tbSimICPTILS";
+            this.tbSimICPTILS.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPTILS.TabIndex = 11;
+            // 
+            // labelICP2
+            // 
+            this.labelICP2.AutoSize = true;
+            this.labelICP2.Location = new System.Drawing.Point(-3, 30);
+            this.labelICP2.Name = "labelICP2";
+            this.labelICP2.Size = new System.Drawing.Size(36, 13);
+            this.labelICP2.TabIndex = 10;
+            this.labelICP2.Text = "ICP 2:";
+            // 
+            // labelICP1
+            // 
+            this.labelICP1.AutoSize = true;
+            this.labelICP1.Location = new System.Drawing.Point(-3, 9);
+            this.labelICP1.Name = "labelICP1";
+            this.labelICP1.Size = new System.Drawing.Size(36, 13);
+            this.labelICP1.TabIndex = 9;
+            this.labelICP1.Text = "ICP 1:";
+            // 
+            // labelWarnReset
+            // 
+            this.labelWarnReset.AutoSize = true;
+            this.labelWarnReset.Location = new System.Drawing.Point(-2, 283);
+            this.labelWarnReset.Name = "labelWarnReset";
+            this.labelWarnReset.Size = new System.Drawing.Size(67, 13);
+            this.labelWarnReset.TabIndex = 47;
+            this.labelWarnReset.Text = "Warn Reset:";
+            // 
+            // labelDriftCO
+            // 
+            this.labelDriftCO.AutoSize = true;
+            this.labelDriftCO.Location = new System.Drawing.Point(-2, 238);
+            this.labelDriftCO.Name = "labelDriftCO";
+            this.labelDriftCO.Size = new System.Drawing.Size(62, 13);
+            this.labelDriftCO.TabIndex = 46;
+            this.labelDriftCO.Text = "DRIFT/CO:";
+            // 
+            // labelRCL
+            // 
+            this.labelRCL.AutoSize = true;
+            this.labelRCL.Location = new System.Drawing.Point(-2, 8);
+            this.labelRCL.Name = "labelRCL";
+            this.labelRCL.Size = new System.Drawing.Size(31, 13);
+            this.labelRCL.TabIndex = 45;
+            this.labelRCL.Text = "RCL:";
+            // 
+            // labelCOM1
+            // 
+            this.labelCOM1.AutoSize = true;
+            this.labelCOM1.Location = new System.Drawing.Point(-2, 31);
+            this.labelCOM1.Name = "labelCOM1";
+            this.labelCOM1.Size = new System.Drawing.Size(40, 13);
+            this.labelCOM1.TabIndex = 44;
+            this.labelCOM1.Text = "COM1:";
+            // 
+            // labelDCSSeq
+            // 
+            this.labelDCSSeq.AutoSize = true;
+            this.labelDCSSeq.Location = new System.Drawing.Point(-2, 215);
+            this.labelDCSSeq.Name = "labelDCSSeq";
+            this.labelDCSSeq.Size = new System.Drawing.Size(54, 13);
+            this.labelDCSSeq.TabIndex = 43;
+            this.labelDCSSeq.Text = "DCS Seq:";
+            // 
+            // labelDCSRet
+            // 
+            this.labelDCSRet.AutoSize = true;
+            this.labelDCSRet.Location = new System.Drawing.Point(-2, 192);
+            this.labelDCSRet.Name = "labelDCSRet";
+            this.labelDCSRet.Size = new System.Drawing.Size(52, 13);
+            this.labelDCSRet.TabIndex = 42;
+            this.labelDCSRet.Text = "DCS Ret:";
+            // 
+            // labelDCSDown
+            // 
+            this.labelDCSDown.AutoSize = true;
+            this.labelDCSDown.Location = new System.Drawing.Point(-2, 169);
+            this.labelDCSDown.Name = "labelDCSDown";
+            this.labelDCSDown.Size = new System.Drawing.Size(63, 13);
+            this.labelDCSDown.TabIndex = 41;
+            this.labelDCSDown.Text = "DCS Down:";
+            // 
+            // labelDCSUp
+            // 
+            this.labelDCSUp.AutoSize = true;
+            this.labelDCSUp.Location = new System.Drawing.Point(-2, 146);
+            this.labelDCSUp.Name = "labelDCSUp";
+            this.labelDCSUp.Size = new System.Drawing.Size(49, 13);
+            this.labelDCSUp.TabIndex = 40;
+            this.labelDCSUp.Text = "DCS Up:";
+            // 
+            // labelAG
+            // 
+            this.labelAG.AutoSize = true;
+            this.labelAG.Location = new System.Drawing.Point(-2, 123);
+            this.labelAG.Name = "labelAG";
+            this.labelAG.Size = new System.Drawing.Size(28, 13);
+            this.labelAG.TabIndex = 39;
+            this.labelAG.Text = "A-G:";
+            // 
+            // labelAA
+            // 
+            this.labelAA.AutoSize = true;
+            this.labelAA.Location = new System.Drawing.Point(-2, 100);
+            this.labelAA.Name = "labelAA";
+            this.labelAA.Size = new System.Drawing.Size(27, 13);
+            this.labelAA.TabIndex = 38;
+            this.labelAA.Text = "A-A:";
+            // 
+            // tbSimWarnReset
+            // 
+            this.tbSimWarnReset.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimWarnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimWarnReset.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimWarnReset.Location = new System.Drawing.Point(66, 280);
+            this.tbSimWarnReset.Name = "tbSimWarnReset";
+            this.tbSimWarnReset.Size = new System.Drawing.Size(90, 20);
+            this.tbSimWarnReset.TabIndex = 36;
+            // 
+            // tbSimDriftCOOff
+            // 
+            this.tbSimDriftCOOff.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimDriftCOOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimDriftCOOff.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimDriftCOOff.Location = new System.Drawing.Point(66, 258);
+            this.tbSimDriftCOOff.Name = "tbSimDriftCOOff";
+            this.tbSimDriftCOOff.Size = new System.Drawing.Size(90, 20);
+            this.tbSimDriftCOOff.TabIndex = 35;
+            // 
+            // tbSimDriftCOOn
+            // 
+            this.tbSimDriftCOOn.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimDriftCOOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimDriftCOOn.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimDriftCOOn.Location = new System.Drawing.Point(66, 235);
+            this.tbSimDriftCOOn.Name = "tbSimDriftCOOn";
+            this.tbSimDriftCOOn.Size = new System.Drawing.Size(90, 20);
+            this.tbSimDriftCOOn.TabIndex = 34;
+            // 
+            // tbSimICPDEDSEQ
+            // 
+            this.tbSimICPDEDSEQ.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPDEDSEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPDEDSEQ.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPDEDSEQ.Location = new System.Drawing.Point(66, 212);
+            this.tbSimICPDEDSEQ.Name = "tbSimICPDEDSEQ";
+            this.tbSimICPDEDSEQ.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPDEDSEQ.TabIndex = 33;
+            // 
+            // tbSimICPResetDED
+            // 
+            this.tbSimICPResetDED.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPResetDED.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPResetDED.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPResetDED.Location = new System.Drawing.Point(66, 189);
+            this.tbSimICPResetDED.Name = "tbSimICPResetDED";
+            this.tbSimICPResetDED.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPResetDED.TabIndex = 32;
+            // 
+            // tbSimICPDEDDOWN
+            // 
+            this.tbSimICPDEDDOWN.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPDEDDOWN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPDEDDOWN.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPDEDDOWN.Location = new System.Drawing.Point(66, 166);
+            this.tbSimICPDEDDOWN.Name = "tbSimICPDEDDOWN";
+            this.tbSimICPDEDDOWN.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPDEDDOWN.TabIndex = 31;
+            // 
+            // tbSimICPDEDUP
+            // 
+            this.tbSimICPDEDUP.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPDEDUP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPDEDUP.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPDEDUP.Location = new System.Drawing.Point(66, 143);
+            this.tbSimICPDEDUP.Name = "tbSimICPDEDUP";
+            this.tbSimICPDEDUP.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPDEDUP.TabIndex = 30;
+            // 
+            // tbSimICPAG
+            // 
+            this.tbSimICPAG.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPAG.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPAG.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPAG.Location = new System.Drawing.Point(66, 120);
+            this.tbSimICPAG.Name = "tbSimICPAG";
+            this.tbSimICPAG.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPAG.TabIndex = 29;
+            // 
+            // tbSimICPAA
+            // 
+            this.tbSimICPAA.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPAA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPAA.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPAA.Location = new System.Drawing.Point(66, 97);
+            this.tbSimICPAA.Name = "tbSimICPAA";
+            this.tbSimICPAA.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPAA.TabIndex = 28;
+            // 
+            // tbSimICPLIST
+            // 
+            this.tbSimICPLIST.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPLIST.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPLIST.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPLIST.Location = new System.Drawing.Point(66, 74);
+            this.tbSimICPLIST.Name = "tbSimICPLIST";
+            this.tbSimICPLIST.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPLIST.TabIndex = 27;
+            // 
+            // tbSimICPCom2
+            // 
+            this.tbSimICPCom2.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPCom2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPCom2.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPCom2.Location = new System.Drawing.Point(66, 51);
+            this.tbSimICPCom2.Name = "tbSimICPCom2";
+            this.tbSimICPCom2.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPCom2.TabIndex = 26;
+            // 
+            // tbSimICPCom1
+            // 
+            this.tbSimICPCom1.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPCom1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPCom1.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPCom1.Location = new System.Drawing.Point(66, 28);
+            this.tbSimICPCom1.Name = "tbSimICPCom1";
+            this.tbSimICPCom1.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPCom1.TabIndex = 25;
+            // 
+            // tbSimICPCLEAR
+            // 
+            this.tbSimICPCLEAR.BackColor = System.Drawing.SystemColors.Window;
+            this.tbSimICPCLEAR.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbSimICPCLEAR.ForeColor = System.Drawing.Color.DarkGray;
+            this.tbSimICPCLEAR.Location = new System.Drawing.Point(66, 5);
+            this.tbSimICPCLEAR.Name = "tbSimICPCLEAR";
+            this.tbSimICPCLEAR.Size = new System.Drawing.Size(90, 20);
+            this.tbSimICPCLEAR.TabIndex = 14;
+            // 
+            // labelLIST
+            // 
+            this.labelLIST.AutoSize = true;
+            this.labelLIST.Location = new System.Drawing.Point(-2, 77);
+            this.labelLIST.Name = "labelLIST";
+            this.labelLIST.Size = new System.Drawing.Size(33, 13);
+            this.labelLIST.TabIndex = 13;
+            this.labelLIST.Text = "LIST:";
+            // 
+            // labelCOM2
+            // 
+            this.labelCOM2.AutoSize = true;
+            this.labelCOM2.Location = new System.Drawing.Point(-2, 54);
+            this.labelCOM2.Name = "labelCOM2";
+            this.labelCOM2.Size = new System.Drawing.Size(40, 13);
+            this.labelCOM2.TabIndex = 12;
+            this.labelCOM2.Text = "COM2:";
+            // 
+            // panelKeyfile
+            // 
+            this.panelKeyfile.BackColor = System.Drawing.Color.Transparent;
+            this.panelKeyfile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelKeyfile.Controls.Add(this.tbKeyfile);
+            this.panelKeyfile.Controls.Add(this.btnSaveKeyfile);
+            this.panelKeyfile.Controls.Add(this.btnOpenKeyfile);
+            this.panelKeyfile.Controls.Add(this.labelKeyfile);
+            this.panelKeyfile.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelKeyfile.Location = new System.Drawing.Point(3, 3);
+            this.panelKeyfile.Name = "panelKeyfile";
+            this.panelKeyfile.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.panelKeyfile.Size = new System.Drawing.Size(317, 30);
+            this.panelKeyfile.TabIndex = 4;
+            // 
+            // tbKeyfile
+            // 
+            this.tbKeyfile.Location = new System.Drawing.Point(49, 5);
+            this.tbKeyfile.Name = "tbKeyfile";
+            this.tbKeyfile.Size = new System.Drawing.Size(141, 20);
+            this.tbKeyfile.TabIndex = 7;
+            // 
+            // btnSaveKeyfile
+            // 
+            this.btnSaveKeyfile.Enabled = false;
+            this.btnSaveKeyfile.Location = new System.Drawing.Point(256, 3);
+            this.btnSaveKeyfile.Name = "btnSaveKeyfile";
+            this.btnSaveKeyfile.Size = new System.Drawing.Size(55, 23);
+            this.btnSaveKeyfile.TabIndex = 6;
+            this.btnSaveKeyfile.Text = "Save";
+            this.btnSaveKeyfile.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenKeyfile
+            // 
+            this.btnOpenKeyfile.Location = new System.Drawing.Point(196, 3);
+            this.btnOpenKeyfile.Name = "btnOpenKeyfile";
+            this.btnOpenKeyfile.Size = new System.Drawing.Size(55, 23);
+            this.btnOpenKeyfile.TabIndex = 5;
+            this.btnOpenKeyfile.Text = "Open...";
+            this.btnOpenKeyfile.UseVisualStyleBackColor = true;
+            // 
+            // labelKeyfile
+            // 
+            this.labelKeyfile.AutoSize = true;
+            this.labelKeyfile.Location = new System.Drawing.Point(1, 8);
+            this.labelKeyfile.Name = "labelKeyfile";
+            this.labelKeyfile.Size = new System.Drawing.Size(41, 13);
+            this.labelKeyfile.TabIndex = 4;
+            this.labelKeyfile.Text = "Keyfile:";
+            // 
+            // labelNorm
+            // 
+            this.labelNorm.AutoSize = true;
+            this.labelNorm.Location = new System.Drawing.Point(-2, 261);
+            this.labelNorm.Name = "labelNorm";
+            this.labelNorm.Size = new System.Drawing.Size(62, 13);
+            this.labelNorm.TabIndex = 48;
+            this.labelNorm.Text = "DRIFT/CO:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(319, 357);
+            this.ClientSize = new System.Drawing.Size(331, 388);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -356,6 +1035,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudUpdatePeriod)).EndInit();
             this.gbConnection.ResumeLayout(false);
             this.gbConnection.PerformLayout();
+            this.tabKeystrokes.ResumeLayout(false);
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel1.PerformLayout();
+            this.splitContainer.Panel2.ResumeLayout(false);
+            this.splitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+            this.splitContainer.ResumeLayout(false);
+            this.panelKeyfile.ResumeLayout(false);
+            this.panelKeyfile.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -387,5 +1075,63 @@
         private System.Windows.Forms.CheckBox chkRunServerOnLaunch;
         private System.Windows.Forms.CheckBox chkLaunchAtStartup;
         private System.Windows.Forms.NumericUpDown nudUpdatePeriod;
+        private System.Windows.Forms.Panel panelKeyfile;
+        private System.Windows.Forms.TextBox tbKeyfile;
+        private System.Windows.Forms.Button btnSaveKeyfile;
+        private System.Windows.Forms.Button btnOpenKeyfile;
+        private System.Windows.Forms.Label labelKeyfile;
+        private System.Windows.Forms.SplitContainer splitContainer;
+        private System.Windows.Forms.TextBox tbSimICPTILS;
+        private System.Windows.Forms.Label labelICP2;
+        private System.Windows.Forms.Label labelICP1;
+        private System.Windows.Forms.TextBox tbSimICPCLEAR;
+        private System.Windows.Forms.Label labelLIST;
+        private System.Windows.Forms.Label labelCOM2;
+        private System.Windows.Forms.TextBox tbSimICPEnter;
+        private System.Windows.Forms.TextBox tbSimICPPrevious;
+        private System.Windows.Forms.TextBox tbSimICPNext;
+        private System.Windows.Forms.TextBox tbSimICPZERO;
+        private System.Windows.Forms.TextBox tbSimICPNINE;
+        private System.Windows.Forms.TextBox tbSimICPEIGHT;
+        private System.Windows.Forms.TextBox tbSimICPMark;
+        private System.Windows.Forms.TextBox tbSimICPSIX;
+        private System.Windows.Forms.TextBox tbSimICPCrus;
+        private System.Windows.Forms.TextBox tbSimICPStpt;
+        private System.Windows.Forms.TextBox tbSimICPTHREE;
+        private System.Windows.Forms.Label labelICP3;
+        private System.Windows.Forms.TextBox tbSimWarnReset;
+        private System.Windows.Forms.TextBox tbSimDriftCOOff;
+        private System.Windows.Forms.TextBox tbSimDriftCOOn;
+        private System.Windows.Forms.TextBox tbSimICPDEDSEQ;
+        private System.Windows.Forms.TextBox tbSimICPResetDED;
+        private System.Windows.Forms.TextBox tbSimICPDEDDOWN;
+        private System.Windows.Forms.TextBox tbSimICPDEDUP;
+        private System.Windows.Forms.TextBox tbSimICPAG;
+        private System.Windows.Forms.TextBox tbSimICPAA;
+        private System.Windows.Forms.TextBox tbSimICPLIST;
+        private System.Windows.Forms.TextBox tbSimICPCom2;
+        private System.Windows.Forms.TextBox tbSimICPCom1;
+        private System.Windows.Forms.Label labelICP8;
+        private System.Windows.Forms.Label labelICP7;
+        private System.Windows.Forms.Label labelICP6;
+        private System.Windows.Forms.Label labelICP5;
+        private System.Windows.Forms.Label labelICP4;
+        private System.Windows.Forms.Label labelENTR;
+        private System.Windows.Forms.Label labelICSDown;
+        private System.Windows.Forms.Label labelICSUp;
+        private System.Windows.Forms.Label labelICP0;
+        private System.Windows.Forms.Label labelICP9;
+        private System.Windows.Forms.Label labelDCSSeq;
+        private System.Windows.Forms.Label labelDCSRet;
+        private System.Windows.Forms.Label labelDCSDown;
+        private System.Windows.Forms.Label labelDCSUp;
+        private System.Windows.Forms.Label labelAG;
+        private System.Windows.Forms.Label labelAA;
+        private System.Windows.Forms.Label labelCOM1;
+        private System.Windows.Forms.Label labelWarnReset;
+        private System.Windows.Forms.Label labelDriftCO;
+        private System.Windows.Forms.Label labelRCL;
+        private System.Windows.Forms.TextBox tbSimICPALOW;
+        private System.Windows.Forms.Label labelNorm;
     }
 }

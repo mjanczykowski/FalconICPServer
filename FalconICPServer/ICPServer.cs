@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using F4SharedMem;
 using FalconICPServer.Properties;
 using NLog;
-using System.Text;
+using KeyboardInput;
 
 namespace FalconICPServer
 {
@@ -25,7 +25,6 @@ namespace FalconICPServer
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        private volatile bool _running;
         private volatile bool _disposed;
 
         private TcpListener tcpListener;
@@ -120,9 +119,10 @@ namespace FalconICPServer
                 logger.Debug("Connection established");
 
                 // Run new client thread
-                _running = true;
                 clientThread = new Thread(RunClientThread);
                 clientThread.Start();
+
+
 
                 // Listen for next connection (in case the current gets broken, etc.)
                 listener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), listener);
@@ -238,10 +238,15 @@ namespace FalconICPServer
                         }
                     }
 
+                    Thread.Sleep(3000);
+                    SendKeyInput.KeyPress(ScanCode.P);
+
+                    
+
                     networkStream.Write(ded, 0, ded.Length);
                 }
             }
-            catch (System.IO.IOException e) { logger.Debug("Connection closed IOException"); }
+            catch (System.IO.IOException) { logger.Debug("Connection closed IOException"); }
 
             CloseConnection();
 

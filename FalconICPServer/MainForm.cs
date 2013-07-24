@@ -9,8 +9,10 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 using NLog;
 using FalconICPServer.Properties;
+using F4KeyFile;
 
 namespace FalconICPServer
 {
@@ -18,11 +20,15 @@ namespace FalconICPServer
     {
         private ICPServer icpServer;
         private Logger logger = LogManager.GetCurrentClassLogger();
+        private KeyfileState keyfileState = new KeyfileState();
+        private Dictionary<string, TextBox> callbackToTextBox = new Dictionary<string,TextBox>();
 
         public MainForm()
         {
             InitializeComponent();
         }
+
+        #region server methods
 
         /// <summary>
         /// Preparations for server startings + server start
@@ -97,8 +103,25 @@ namespace FalconICPServer
             gbGeneral.Enabled = true;
             gbPerformance.Enabled = true;
             tsbStart.Enabled = true;
-
         }
+
+        private string getLocalIpAddress()
+        {
+            IPHostEntry host;
+            string localIP = "?";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                    break;
+                }
+            }
+            return localIP;
+        }
+
+        #endregion
 
         private void tsbStart_Click(object sender, EventArgs e)
         {
@@ -110,21 +133,7 @@ namespace FalconICPServer
             StopServer();
         }
 
-        private string getLocalIpAddress()
-        {
-            IPHostEntry host;
-            string localIP = "?";
-            host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach(IPAddress ip in host.AddressList)
-            {
-                if(ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    localIP = ip.ToString();
-                    break;
-                }
-            }
-            return localIP;
-        }
+        
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -137,6 +146,7 @@ namespace FalconICPServer
                 }
             }
             LoadSettings();
+            LoadKeyFile();
         }
 
         private void IcpServer_ConnectionEstablished(object sender, ConnectionEventArgs e)
@@ -159,6 +169,106 @@ namespace FalconICPServer
             tbServerPort.Text = Settings.Default.ServerPort;
             nudUpdatePeriod.Value = Settings.Default.UpdatePeriod;
             cbPriority.SelectedItem = Enum.GetName(typeof(ThreadPriority), Settings.Default.Priority);
+        }
+
+        private void LoadKeyFile()
+        {
+            if (string.IsNullOrEmpty(Settings.Default.KeyfilePath))
+            {
+                //TODO: try to load path from BMS path
+                return;
+            }
+
+            try
+            {
+                LoadKeyFile(Settings.Default.KeyfilePath);
+            }
+            catch(Exception)
+            {
+                logger.Debug("Key file load error");
+            }
+        }
+
+        private void LoadKeyFile(string path)
+        {
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("keyfile_path");
+            var keyfileFI = new FileInfo(path);
+            if (!keyfileFI.Exists) throw new FileNotFoundException(path);
+
+            string oldKeyfilePath = null;
+
+            if (keyfileState.keyfilePath != null && !path.Equals(keyfileState.keyfilePath))
+                oldKeyfilePath = keyfileState.keyfilePath;
+
+            try
+            {
+                keyfileState.keyfilePath = path;
+                keyfileState.keyfile = new KeyFile(keyfileFI);
+                keyfileState.keyfile.Load();
+                ParseKeyFile();
+                keyfileState.Changed = false;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("An error occured while loading key file.\n\n{0}", e.StackTrace),
+                    Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1);
+                logger.Info(e.Message);
+                if (!string.IsNullOrEmpty(oldKeyfilePath))
+                {
+                    LoadKeyFile(oldKeyfilePath);
+                }
+            }
+
+        }
+
+        private void ParseKeyFile()
+        {
+            if (keyfileState.keyfile == null) throw new InvalidOperationException();
+
+            // Initialize callbackToTextBox dictionary
+            if (callbackToTextBox.Count == 0)
+            {
+                #region adding callbacks
+                callbackToTextBox.Add("SimWarnReset", tbSimWarnReset);
+                callbackToTextBox.Add("SimICPCom1", tbSimICPCom1);
+                callbackToTextBox.Add("SimICPCom2", tbSimICPCom2);
+                //"SimICPIFF"
+                callbackToTextBox.Add("SimICPLIST", tbSimICPLIST);
+                callbackToTextBox.Add("SimICPAA", tbSimICPAA);
+                callbackToTextBox.Add("SimICPAG", tbSimICPAG);
+                callbackToTextBox.Add("SimICPDEDDOWN", tbSimICPDEDDOWN);
+                callbackToTextBox.Add("SimICPDEDUP", tbSimICPDEDUP);
+                callbackToTextBox.Add("SimICPDEDSEQ", tbSimICPDEDSEQ);
+                callbackToTextBox.Add("SimICPResetDED", tbSimICPResetDED);
+                callbackToTextBox.Add("SimICPCLEAR", tbSimICPCLEAR);
+                callbackToTextBox.Add("SimICPTILS", tbSimICPTILS);
+                callbackToTextBox.Add("SimICPALOW", tbSimICPALOW);
+                callbackToTextBox.Add("SimICPTHREE", tbSimICPTHREE);
+                callbackToTextBox.Add("SimICPStpt", tbSimICPStpt);
+                callbackToTextBox.Add("SimICPCrus", tbSimICPCrus);
+                callbackToTextBox.Add("SimICPSIX", tbSimICPSIX);
+                callbackToTextBox.Add("SimICPMark", tbSimICPMark);
+                callbackToTextBox.Add("SimICPEIGHT", tbSimICPEIGHT);
+                callbackToTextBox.Add("SimICPNINE", tbSimICPNINE);
+                callbackToTextBox.Add("SimICPZERO", tbSimICPZERO);
+                callbackToTextBox.Add("SimICPEnter", tbSimICPEnter);
+                callbackToTextBox.Add("SimICPNext", tbSimICPNext);
+                callbackToTextBox.Add("SimICPPrevious", tbSimICPPrevious);
+                callbackToTextBox.Add("SimDriftCOOn", tbSimDriftCOOn);
+                callbackToTextBox.Add("SimDriftCOOff", tbSimDriftCOOff);
+                #endregion
+            }
+
+            foreach (var pair in callbackToTextBox)
+            {
+                var binding = keyfileState.keyfile.FindBindingForCallback(pair.Key);
+                if (binding is KeyBinding)
+                {
+                    var keyBinding = binding as KeyBinding;
+                    pair.Value.Text = keyBinding.Key.ToString();
+                }
+            }
         }
 
         private void cbPriority_SelectedIndexChanged(object sender, EventArgs e)
@@ -215,6 +325,47 @@ namespace FalconICPServer
 
             Settings.Default.LaunchAtWindowsStartup = chkLaunchAtStartup.Checked;
             Settings.Default.Save();
+        }
+
+        private class KeyfileState
+        {
+            public bool Changed;
+
+            public KeyFile keyfile;
+            public string keyfilePath;
+
+            #region callbacks
+            public static string[] Callbacks = {
+                                                   "SimWarnReset",
+                                                   "SimICPCom1",
+                                                   "SimICPCom2",
+                                                   //"SimICPIFF",
+                                                   "SimICPLIST",
+                                                   "SimICPNav",
+                                                   "SimICPAA",
+                                                   "SimICPAG",
+                                                   "SimICPDEDDOWN",
+                                                   "SimICPDEDUP",
+                                                   "SimICPDEDSEQ",
+                                                   "SimICPResetDED",
+                                                   "SimICPCLEAR",
+                                                   "SimICPTILS",
+                                                   "SimICPALOW",
+                                                   "SimICPTHREE",
+                                                   "SimICPStpt",
+                                                   "SimICPCrus",
+                                                   "SimICPSIX",
+                                                   "SimICPMark",
+                                                   "SimICPEIGHT",
+                                                   "SimICPNINE",
+                                                   "SimICPZERO",
+                                                   "SimICPEnter",
+                                                   "SimICPLink",
+                                                   "SimICPNext",
+                                                   "SimICPPrevious",
+                                                   "SimDriftCOOn",
+                                                   "SimDriftCOOff" };
+            #endregion
         }
     }
 }
