@@ -30,24 +30,10 @@ namespace FalconICPServer
 
             if (keys.ComboKey.ScanCode > 0)
             {
-                if (keys.ComboKey.Modifiers != KeyModifiers.None)
-                {
-                    str.AppendFormat("{0} + {1}, ", keys.ComboKey.Modifiers.ToString(), ((ScanCodes)keys.ComboKey.ScanCode).ToString());
-                }
-                else
-                {
-                    str.AppendFormat("{0}, ", ((ScanCodes)keys.ComboKey.ScanCode).ToString());
-                }
+                str.AppendFormat("{0}{1}, ", keyModifiersDesc[(int)keys.ComboKey.Modifiers], GetScanCodeDescription((ScanCodes)keys.ComboKey.ScanCode));
             }
+            str.AppendFormat("{0}{1}", keyModifiersDesc[(int)keys.Key.Modifiers], GetScanCodeDescription((ScanCodes)keys.Key.ScanCode));
 
-            if (keys.Key.Modifiers != KeyModifiers.None)
-            {
-                str.AppendFormat("{0} + {1}", keys.Key.Modifiers.ToString(), ((ScanCodes)keys.Key.ScanCode).ToString());
-            }
-            else
-            {
-                str.Append(((ScanCodes)keys.Key.ScanCode).ToString());
-            }
             return str.ToString();
         }
 
@@ -60,17 +46,76 @@ namespace FalconICPServer
         {
             if (keys == null) throw new ArgumentNullException();
 
-            StringBuilder str = new StringBuilder();
+            return string.Format("{0}{1}", keyModifiersDesc[(int)keys.Key.Modifiers], GetScanCodeDescription((ScanCodes)keys.Key.ScanCode));
+        }
 
-            if (keys.Key.Modifiers != KeyModifiers.None)
+        public static string GetScanCodeDescription(ScanCodes sc)
+        {
+            switch (sc)
             {
-                str.AppendFormat("{0} + {1}", keys.Key.Modifiers.ToString(), ((ScanCodes)keys.Key.ScanCode).ToString());
+                case ScanCodes.One:
+                    return "1";
+                case ScanCodes.Two:
+                    return "2";
+                case ScanCodes.Three:
+                    return "3";
+                case ScanCodes.Four:
+                    return "4";
+                case ScanCodes.Five:
+                    return "5";
+                case ScanCodes.Six:
+                    return "6";
+                case ScanCodes.Seven:
+                    return "7";
+                case ScanCodes.Eight:
+                    return "8";
+                case ScanCodes.Nine:
+                    return "9";
+                case ScanCodes.Zero:
+                    return "0";
+                case ScanCodes.Minus:
+                    return "-";
+                case ScanCodes.Equals:
+                    return "=";
+                case ScanCodes.LBracket:
+                    return "[";
+                case ScanCodes.RBracket:
+                    return "]";
+                case ScanCodes.Return:
+                    return "Enter";
+                case ScanCodes.Semicolon:
+                    return ";";
+                case ScanCodes.Apostrophe:
+                    return "'";
+                case ScanCodes.Grave:
+                    return "~";
+                case ScanCodes.Backslash:
+                    return "\\";
+                case ScanCodes.Comma:
+                    return ",";
+                case ScanCodes.Period:
+                    return ".";
+                case ScanCodes.Slash:
+                    return "/";
+                case ScanCodes.Multiply:
+                    return "NumPad *";
+                case ScanCodes.Subtract:
+                    return "NumPad -";
+                case ScanCodes.Add:
+                    return "NumPad +";
+                case ScanCodes.Decimal:
+                    return "NumPad .";
+                case ScanCodes.NumPadEnter:
+                    return "NumPad Enter";
+                case ScanCodes.Divide:
+                    return "NumPad /";
+                case ScanCodes.Prior:
+                    return "Page Up";
+                case ScanCodes.Next:
+                    return "Page Down";
+                default:
+                    return sc.ToString();
             }
-            else
-            {
-                str.Append(((ScanCodes)keys.Key.ScanCode).ToString());
-            }
-            return str.ToString();
         }
 
 
@@ -115,36 +160,17 @@ namespace FalconICPServer
             if (shift) SendKeyInput.KeyUp(ScanCode.LeftShift);
         }
 
-        /*
-        public static uint[] ConvertBindingToScanCodes(KeyBinding keys)
-        {
-            int length = 0;
-            if(keys.ComboKey.ScanCode != -1)
-            {
-                length = modifiersCount[(int)keys.ComboKey.Modifiers] + 1;
-            }
-            if (keys.Key.ScanCode != -1)
-            {
-                length += modifiersCount[(int)keys.Key.Modifiers] + 1;
-            }
-            else
-            {
-                //if no primary key set
-                return null;
-            }
-            uint[] scanCodes = new uint[length];
-            int keyInd = 0;
-
-            if(keys.ComboKey.ScanCode != -1)
-            {
-                byte mask = 1;  //binary mask
-                for (int i = 0; i < 3; i++)
-                {
-                    if(((int)keys.ComboKey.Modifiers & mask) == 1)
-                }
-            }
-        }*/
-
         private static int[] modifiersCount = { 0, 1, 1, 2, 1, 2, 2, 3 };
+
+        private static string[] keyModifiersDesc = {
+                                        "",
+                                        "Shift + ",
+                                        "Ctrl + ",
+                                        "Ctrl + Shift + ",
+                                        "Alt + ",
+                                        "Shift + Alt + ",
+                                        "Ctrl + Alt + ",
+                                        "Ctrl + Shift + Alt + "
+                                    };
     }
 }
