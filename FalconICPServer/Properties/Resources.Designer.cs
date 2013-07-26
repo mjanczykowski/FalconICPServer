@@ -86,5 +86,14 @@ namespace FalconICPServer.Properties {
                 return ResourceManager.GetString("error_invalid_port", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press new key combination for {0} callback..
+        /// </summary>
+        internal static string info_press_keys_for_callback {
+            get {
+                return ResourceManager.GetString("info_press_keys_for_callback", resourceCulture);
+            }
+        }
     }
 }

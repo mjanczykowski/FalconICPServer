@@ -54,6 +54,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Input_structs\XButton.cs" />
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="KeyCodeConverter.cs" />
     <Compile Include="ScanCode.cs" />
     <Compile Include="SendKeyInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

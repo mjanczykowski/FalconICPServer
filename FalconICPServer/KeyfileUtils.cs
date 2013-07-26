@@ -52,6 +52,29 @@ namespace FalconICPServer
         }
 
         /// <summary>
+        /// Return key description for temporary combo
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        public static string GetTempKeyDescription(KeyBinding keys)
+        {
+            if (keys == null) throw new ArgumentNullException();
+
+            StringBuilder str = new StringBuilder();
+
+            if (keys.Key.Modifiers != KeyModifiers.None)
+            {
+                str.AppendFormat("{0} + {1}", keys.Key.Modifiers.ToString(), ((ScanCodes)keys.Key.ScanCode).ToString());
+            }
+            else
+            {
+                str.Append(((ScanCodes)keys.Key.ScanCode).ToString());
+            }
+            return str.ToString();
+        }
+
+
+        /// <summary>
         /// Sends keystroke scancodes to input.
         /// </summary>
         /// <param name="keys">KeyBinding for given callback</param>

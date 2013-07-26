@@ -564,8 +564,10 @@
             this.tbSimICPEnter.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPEnter.Location = new System.Drawing.Point(61, 280);
             this.tbSimICPEnter.Name = "tbSimICPEnter";
+            this.tbSimICPEnter.ReadOnly = true;
             this.tbSimICPEnter.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPEnter.TabIndex = 24;
+            this.tbSimICPEnter.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPPrevious
             // 
@@ -574,8 +576,10 @@
             this.tbSimICPPrevious.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPPrevious.Location = new System.Drawing.Point(61, 258);
             this.tbSimICPPrevious.Name = "tbSimICPPrevious";
+            this.tbSimICPPrevious.ReadOnly = true;
             this.tbSimICPPrevious.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPPrevious.TabIndex = 23;
+            this.tbSimICPPrevious.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPNext
             // 
@@ -584,8 +588,10 @@
             this.tbSimICPNext.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPNext.Location = new System.Drawing.Point(61, 235);
             this.tbSimICPNext.Name = "tbSimICPNext";
+            this.tbSimICPNext.ReadOnly = true;
             this.tbSimICPNext.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPNext.TabIndex = 22;
+            this.tbSimICPNext.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPZERO
             // 
@@ -594,8 +600,10 @@
             this.tbSimICPZERO.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPZERO.Location = new System.Drawing.Point(61, 212);
             this.tbSimICPZERO.Name = "tbSimICPZERO";
+            this.tbSimICPZERO.ReadOnly = true;
             this.tbSimICPZERO.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPZERO.TabIndex = 21;
+            this.tbSimICPZERO.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPNINE
             // 
@@ -604,8 +612,10 @@
             this.tbSimICPNINE.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPNINE.Location = new System.Drawing.Point(61, 189);
             this.tbSimICPNINE.Name = "tbSimICPNINE";
+            this.tbSimICPNINE.ReadOnly = true;
             this.tbSimICPNINE.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPNINE.TabIndex = 20;
+            this.tbSimICPNINE.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPEIGHT
             // 
@@ -614,8 +624,10 @@
             this.tbSimICPEIGHT.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPEIGHT.Location = new System.Drawing.Point(61, 166);
             this.tbSimICPEIGHT.Name = "tbSimICPEIGHT";
+            this.tbSimICPEIGHT.ReadOnly = true;
             this.tbSimICPEIGHT.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPEIGHT.TabIndex = 19;
+            this.tbSimICPEIGHT.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPMark
             // 
@@ -624,8 +636,10 @@
             this.tbSimICPMark.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPMark.Location = new System.Drawing.Point(61, 143);
             this.tbSimICPMark.Name = "tbSimICPMark";
+            this.tbSimICPMark.ReadOnly = true;
             this.tbSimICPMark.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPMark.TabIndex = 18;
+            this.tbSimICPMark.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPSIX
             // 
@@ -634,8 +648,10 @@
             this.tbSimICPSIX.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPSIX.Location = new System.Drawing.Point(61, 120);
             this.tbSimICPSIX.Name = "tbSimICPSIX";
+            this.tbSimICPSIX.ReadOnly = true;
             this.tbSimICPSIX.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPSIX.TabIndex = 17;
+            this.tbSimICPSIX.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPCrus
             // 
@@ -644,8 +660,10 @@
             this.tbSimICPCrus.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPCrus.Location = new System.Drawing.Point(61, 97);
             this.tbSimICPCrus.Name = "tbSimICPCrus";
+            this.tbSimICPCrus.ReadOnly = true;
             this.tbSimICPCrus.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPCrus.TabIndex = 16;
+            this.tbSimICPCrus.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPStpt
             // 
@@ -654,8 +672,10 @@
             this.tbSimICPStpt.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPStpt.Location = new System.Drawing.Point(61, 74);
             this.tbSimICPStpt.Name = "tbSimICPStpt";
+            this.tbSimICPStpt.ReadOnly = true;
             this.tbSimICPStpt.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPStpt.TabIndex = 15;
+            this.tbSimICPStpt.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPTHREE
             // 
@@ -664,8 +684,10 @@
             this.tbSimICPTHREE.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPTHREE.Location = new System.Drawing.Point(61, 51);
             this.tbSimICPTHREE.Name = "tbSimICPTHREE";
+            this.tbSimICPTHREE.ReadOnly = true;
             this.tbSimICPTHREE.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPTHREE.TabIndex = 14;
+            this.tbSimICPTHREE.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPALOW
             // 
@@ -674,8 +696,10 @@
             this.tbSimICPALOW.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPALOW.Location = new System.Drawing.Point(61, 28);
             this.tbSimICPALOW.Name = "tbSimICPALOW";
+            this.tbSimICPALOW.ReadOnly = true;
             this.tbSimICPALOW.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPALOW.TabIndex = 13;
+            this.tbSimICPALOW.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // labelICP3
             // 
@@ -693,8 +717,10 @@
             this.tbSimICPTILS.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPTILS.Location = new System.Drawing.Point(61, 5);
             this.tbSimICPTILS.Name = "tbSimICPTILS";
+            this.tbSimICPTILS.ReadOnly = true;
             this.tbSimICPTILS.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPTILS.TabIndex = 11;
+            this.tbSimICPTILS.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // labelICP2
             // 
@@ -719,9 +745,9 @@
             this.labelNorm.AutoSize = true;
             this.labelNorm.Location = new System.Drawing.Point(-2, 261);
             this.labelNorm.Name = "labelNorm";
-            this.labelNorm.Size = new System.Drawing.Size(62, 13);
+            this.labelNorm.Size = new System.Drawing.Size(35, 13);
             this.labelNorm.TabIndex = 48;
-            this.labelNorm.Text = "DRIFT/CO:";
+            this.labelNorm.Text = "Norm:";
             // 
             // labelWarnReset
             // 
@@ -820,8 +846,10 @@
             this.tbSimWarnReset.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimWarnReset.Location = new System.Drawing.Point(66, 280);
             this.tbSimWarnReset.Name = "tbSimWarnReset";
+            this.tbSimWarnReset.ReadOnly = true;
             this.tbSimWarnReset.Size = new System.Drawing.Size(90, 20);
             this.tbSimWarnReset.TabIndex = 36;
+            this.tbSimWarnReset.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimDriftCOOff
             // 
@@ -830,8 +858,10 @@
             this.tbSimDriftCOOff.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimDriftCOOff.Location = new System.Drawing.Point(66, 258);
             this.tbSimDriftCOOff.Name = "tbSimDriftCOOff";
+            this.tbSimDriftCOOff.ReadOnly = true;
             this.tbSimDriftCOOff.Size = new System.Drawing.Size(90, 20);
             this.tbSimDriftCOOff.TabIndex = 35;
+            this.tbSimDriftCOOff.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimDriftCOOn
             // 
@@ -840,8 +870,10 @@
             this.tbSimDriftCOOn.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimDriftCOOn.Location = new System.Drawing.Point(66, 235);
             this.tbSimDriftCOOn.Name = "tbSimDriftCOOn";
+            this.tbSimDriftCOOn.ReadOnly = true;
             this.tbSimDriftCOOn.Size = new System.Drawing.Size(90, 20);
             this.tbSimDriftCOOn.TabIndex = 34;
+            this.tbSimDriftCOOn.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPDEDSEQ
             // 
@@ -850,8 +882,10 @@
             this.tbSimICPDEDSEQ.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPDEDSEQ.Location = new System.Drawing.Point(66, 212);
             this.tbSimICPDEDSEQ.Name = "tbSimICPDEDSEQ";
+            this.tbSimICPDEDSEQ.ReadOnly = true;
             this.tbSimICPDEDSEQ.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPDEDSEQ.TabIndex = 33;
+            this.tbSimICPDEDSEQ.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPResetDED
             // 
@@ -860,8 +894,10 @@
             this.tbSimICPResetDED.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPResetDED.Location = new System.Drawing.Point(66, 189);
             this.tbSimICPResetDED.Name = "tbSimICPResetDED";
+            this.tbSimICPResetDED.ReadOnly = true;
             this.tbSimICPResetDED.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPResetDED.TabIndex = 32;
+            this.tbSimICPResetDED.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPDEDDOWN
             // 
@@ -870,8 +906,10 @@
             this.tbSimICPDEDDOWN.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPDEDDOWN.Location = new System.Drawing.Point(66, 166);
             this.tbSimICPDEDDOWN.Name = "tbSimICPDEDDOWN";
+            this.tbSimICPDEDDOWN.ReadOnly = true;
             this.tbSimICPDEDDOWN.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPDEDDOWN.TabIndex = 31;
+            this.tbSimICPDEDDOWN.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPDEDUP
             // 
@@ -880,8 +918,10 @@
             this.tbSimICPDEDUP.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPDEDUP.Location = new System.Drawing.Point(66, 143);
             this.tbSimICPDEDUP.Name = "tbSimICPDEDUP";
+            this.tbSimICPDEDUP.ReadOnly = true;
             this.tbSimICPDEDUP.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPDEDUP.TabIndex = 30;
+            this.tbSimICPDEDUP.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPAG
             // 
@@ -890,8 +930,10 @@
             this.tbSimICPAG.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPAG.Location = new System.Drawing.Point(66, 120);
             this.tbSimICPAG.Name = "tbSimICPAG";
+            this.tbSimICPAG.ReadOnly = true;
             this.tbSimICPAG.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPAG.TabIndex = 29;
+            this.tbSimICPAG.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPAA
             // 
@@ -900,8 +942,10 @@
             this.tbSimICPAA.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPAA.Location = new System.Drawing.Point(66, 97);
             this.tbSimICPAA.Name = "tbSimICPAA";
+            this.tbSimICPAA.ReadOnly = true;
             this.tbSimICPAA.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPAA.TabIndex = 28;
+            this.tbSimICPAA.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPLIST
             // 
@@ -910,8 +954,10 @@
             this.tbSimICPLIST.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPLIST.Location = new System.Drawing.Point(66, 74);
             this.tbSimICPLIST.Name = "tbSimICPLIST";
+            this.tbSimICPLIST.ReadOnly = true;
             this.tbSimICPLIST.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPLIST.TabIndex = 27;
+            this.tbSimICPLIST.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPCom2
             // 
@@ -920,8 +966,10 @@
             this.tbSimICPCom2.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPCom2.Location = new System.Drawing.Point(66, 51);
             this.tbSimICPCom2.Name = "tbSimICPCom2";
+            this.tbSimICPCom2.ReadOnly = true;
             this.tbSimICPCom2.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPCom2.TabIndex = 26;
+            this.tbSimICPCom2.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPCom1
             // 
@@ -930,8 +978,10 @@
             this.tbSimICPCom1.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPCom1.Location = new System.Drawing.Point(66, 28);
             this.tbSimICPCom1.Name = "tbSimICPCom1";
+            this.tbSimICPCom1.ReadOnly = true;
             this.tbSimICPCom1.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPCom1.TabIndex = 25;
+            this.tbSimICPCom1.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // tbSimICPCLEAR
             // 
@@ -940,8 +990,10 @@
             this.tbSimICPCLEAR.ForeColor = System.Drawing.Color.DarkGray;
             this.tbSimICPCLEAR.Location = new System.Drawing.Point(66, 5);
             this.tbSimICPCLEAR.Name = "tbSimICPCLEAR";
+            this.tbSimICPCLEAR.ReadOnly = true;
             this.tbSimICPCLEAR.Size = new System.Drawing.Size(90, 20);
             this.tbSimICPCLEAR.TabIndex = 14;
+            this.tbSimICPCLEAR.Click += new System.EventHandler(this.tbCallback_Click);
             // 
             // labelLIST
             // 
@@ -980,6 +1032,7 @@
             // 
             this.tbKeyfile.Location = new System.Drawing.Point(49, 5);
             this.tbKeyfile.Name = "tbKeyfile";
+            this.tbKeyfile.ReadOnly = true;
             this.tbKeyfile.Size = new System.Drawing.Size(141, 20);
             this.tbKeyfile.TabIndex = 7;
             // 
@@ -992,6 +1045,7 @@
             this.btnSaveKeyfile.TabIndex = 6;
             this.btnSaveKeyfile.Text = "Save";
             this.btnSaveKeyfile.UseVisualStyleBackColor = true;
+            this.btnSaveKeyfile.Click += new System.EventHandler(this.btnSaveKeyfile_Click);
             // 
             // btnOpenKeyfile
             // 
@@ -1001,6 +1055,7 @@
             this.btnOpenKeyfile.TabIndex = 5;
             this.btnOpenKeyfile.Text = "Open...";
             this.btnOpenKeyfile.UseVisualStyleBackColor = true;
+            this.btnOpenKeyfile.Click += new System.EventHandler(this.btnOpenKeyfile_Click);
             // 
             // labelKeyfile
             // 
@@ -1023,6 +1078,7 @@
             this.Name = "MainForm";
             this.Text = "Falcon ICP Server";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabControl.ResumeLayout(false);

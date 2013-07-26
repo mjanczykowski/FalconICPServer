@@ -23,8 +23,8 @@
     <Setting Name="Priority" Type="System.Threading.ThreadPriority" Scope="User">
       <Value Profile="(Default)">Normal</Value>
     </Setting>
-    <Setting Name="KeyfilePath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">D:\Gry\Falcon BMS 4.32\User\Config\BMS.key</Value>
+    <Setting Name="KeyfilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -349,14 +349,16 @@ namespace FalconICPServer
         {
             if(!_disposed)
             {
-                if(disposing && _smReader != null)
+                if (disposing && _smReader != null)
+                {
                     try
                     {
-                        //_smReader.Dispose();
+                        _smReader.Dispose();
                     }
-                    catch(Exception) {}
+                    catch (Exception) { }
                 }
-                _disposed = true;
+            }
+            _disposed = true;
         }
     }
 

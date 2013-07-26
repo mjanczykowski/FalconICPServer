@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace KeyboardInput
 {
-    public class SendKeyInput
+    public static class SendKeyInput
     {
         [DllImport("user32.dll", SetLastError = true)]
         static extern UInt32 SendInput(UInt32 nInputs, INPUT[] pInputs, Int32 cbSize);
