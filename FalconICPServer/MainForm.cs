@@ -140,12 +140,12 @@ namespace FalconICPServer
 
         private void IcpServer_ConnectionEstablished(object sender, ConnectionEventArgs e)
         {
-            lbClientIP.Invoke((MethodInvoker)(() => lbClientIP.Text = e.IpAddress));
+            lbClientIP.BeginInvoke((MethodInvoker)(() => lbClientIP.Text = e.IpAddress));
         }
 
         private void IcpServer_ConnectionLost(object sender, ConnectionEventArgs e)
         {
-            lbClientIP.Invoke((MethodInvoker)(() => lbClientIP.Text = "-"));
+            lbClientIP.BeginInvoke((MethodInvoker)(() => lbClientIP.Text = "-"));
         }
 
         private void IcpServer_ButtonPressed(object sender, ButtonPressEventArgs e)

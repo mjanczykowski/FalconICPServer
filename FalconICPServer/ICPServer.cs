@@ -27,6 +27,7 @@ namespace FalconICPServer
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private volatile bool _disposed;
+        private bool _running;
 
         private TcpListener tcpListener;
         private TcpClient tcpClient;
@@ -52,6 +53,8 @@ namespace FalconICPServer
 
             IPAddress ip = IPAddress.Parse("0.0.0.0");
 
+            _running = true;
+
             tcpListener = new TcpListener(ip, port);
             tcpListener.Start();
             tcpListener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), tcpListener);
@@ -65,8 +68,10 @@ namespace FalconICPServer
         {
             logger.Debug("Stop()");
 
+            _running = false;
+
             tcpListener.Stop();
-            
+            /*
             //Close client thread
             lock (_locker)
             {
@@ -77,7 +82,7 @@ namespace FalconICPServer
                     tcpClient = null;
                 }
             }
-            
+            */
             if (clientThread != null)
             {
                 CloseClientThread();
@@ -99,6 +104,7 @@ namespace FalconICPServer
             // If the listener has been closed during callback
             if (listener.Server == null || !listener.Server.IsBound)
             {
+                logger.Debug("listener closed during callback");
                 return;
             }
 
@@ -111,6 +117,7 @@ namespace FalconICPServer
 
                 lock (_locker)
                 {
+                    logger.Debug("new listener");
                     tcpClient = listener.EndAcceptTcpClient(asyncResult);
 
                     var ipAddress = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
@@ -120,7 +127,7 @@ namespace FalconICPServer
                 logger.Debug("Connection established");
 
                 // Run new client thread
-                clientThread = new Thread(RunClientThread);
+                clientThread = new Thread(RunConnectionThread);
                 clientThread.Start();
 
 
@@ -191,7 +198,7 @@ namespace FalconICPServer
         }
         */
 
-        private void RunClientThread()
+        private void RunConnectionThread()
         {
             Thread.CurrentThread.Priority = Settings.Default.Priority;
             Thread.CurrentThread.IsBackground = true;
@@ -205,28 +212,43 @@ namespace FalconICPServer
 
             var ded = new byte[130];
             var inverted = new byte[130];
+            var previous = new byte[130];
             var buffer = new byte[32];
 
             int readBytes = 0;
 
+            _running = true;
+
             try
             {
-                while((readBytes = networkStream.Read(buffer, 0, buffer.Length)) > 0)
+                while (_running)
                 {
-                    logger.Debug("read {0} bytes", readBytes);
-
-                    //TODO: send data to client and get messages
-
-                    var encoding = Encoding.ASCII;
-                    string message = encoding.GetString(buffer, 0, readBytes);
-                    logger.Debug(message + " " + message.Length);
-
-                    if (!message.Equals("ded"))
+                    if (networkStream.DataAvailable)
                     {
-                        this.OnButtonPressed(new ButtonPressEventArgs(message));
-                    }
+                        readBytes = networkStream.Read(buffer, 0, buffer.Length);
+                        if (readBytes == 0)
+                        {
+                            _running = false;
+                            break;
+                        }
 
-                    //END TODO
+                        logger.Debug("read {0} bytes", readBytes);
+
+                        var encoding = Encoding.ASCII;
+                        string message = encoding.GetString(buffer, 0, readBytes).Trim();
+                        logger.Debug(message + " " + message.Length);
+
+                        if (message.Equals("BYE"))
+                        {
+                            _running = false;
+                            break;
+                        }
+
+                        if (!message.Equals("ded"))
+                        {
+                            this.OnButtonPressed(new ButtonPressEventArgs(message));
+                        }
+                    }
 
                     var rawFlightData = _smReader.GetRawPrimaryFlightData();
 
@@ -244,11 +266,32 @@ namespace FalconICPServer
                         }
                     }
 
-                    networkStream.Write(ded, 0, ded.Length);
+                    //if DED has changed
+                    if (!ded.SequenceEqual(previous))
+                    {
+                        logger.Debug("Sending DED info " + ded.Length);
+                        networkStream.Write(ded, 0, ded.Length);
+                        previous = (byte[])ded.Clone();
+                        logger.Debug("DED info sent");
+                    }
+
+                    Thread.Sleep(Settings.Default.UpdatePeriod);
                 }
+            }
+            catch (ObjectDisposedException)
+            {
+                _running = false;
+                logger.Debug("ObjectDisposed");
+            }
+            catch (System.IO.IOException)
+            {
+                _running = false;
+                logger.Debug("Connection closed IOException");
+            }
+            finally
+            {
                 CloseConnection();
             }
-            catch (System.IO.IOException) { logger.Debug("Connection closed IOException"); }
 
             this.OnDisconnected(new ConnectionEventArgs(null));
             logger.Debug("client thread finished");
@@ -259,6 +302,7 @@ namespace FalconICPServer
         /// </summary>
         private void CloseConnection()
         {
+            _running = false;
             lock (_locker)
             {
                 if (tcpClient != null)
@@ -276,40 +320,9 @@ namespace FalconICPServer
         private void CloseClientThread()
         {
             CloseConnection();
-            //clientThread.Join();
+            clientThread.Join();
             clientThread = null;
         }
-
-        /*
-        /// <summary>
-        /// Merges dedLines into one 250-char string to send it.
-        /// </summary>
-        /// <param name="dedLines">DED Lines from Shared Memory</param>
-        /// <param name="invertedDedLines">Inverted DED Lines from Shared Memory</param>
-        /// <returns>Merged strings representing DED Lines + invert information</returns>
-        private string MergeDEDLines(string[] dedLines, string[] invertedDedLines)
-        {
-            StringBuilder str = new StringBuilder(250);
-            for (int i = 0; i < 5; i++)
-            {
-                if (dedLines[i] == null || invertedDedLines[i] == null || dedLines[i].Length != 25 || invertedDedLines[i].Length != 25)
-                {
-                    str.Clear();
-                    str.Append(' ', 50);
-                    str.Append(Resources.ded_info_connected);
-                    str.Append(' ', 50 - Resources.ded_info_connected.Length);
-                    str.Append(Resources.ded_info_no_flight_data);
-                    str.Append(' ', 150 - Resources.ded_info_no_flight_data.Length);
-                    return str.ToString();
-                }
-                else
-                {
-                    str.Append(dedLines[i] + invertedDedLines[i]);
-                }
-            }
-            return str.ToString();
-        }
-        */
 
         private void OnConnected(ConnectionEventArgs e)
         {
