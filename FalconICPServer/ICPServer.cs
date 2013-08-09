@@ -56,6 +56,7 @@ namespace FalconICPServer
             _running = true;
 
             tcpListener = new TcpListener(ip, port);
+
             tcpListener.Start();
             tcpListener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), tcpListener);
         }
@@ -71,18 +72,7 @@ namespace FalconICPServer
             _running = false;
 
             tcpListener.Stop();
-            /*
-            //Close client thread
-            lock (_locker)
-            {
-                if (tcpClient != null)
-                {
-                    tcpClient.Client.Disconnect(false);
-                    tcpClient.Close();
-                    tcpClient = null;
-                }
-            }
-            */
+
             if (clientThread != null)
             {
                 CloseClientThread();

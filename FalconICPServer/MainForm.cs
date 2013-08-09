@@ -144,22 +144,36 @@ namespace FalconICPServer
             gbPerformance.Enabled = false;
             gbGeneral.Enabled = false;
 
-            if (chkLaunchMinimized.Checked)
+            try
             {
-                if (chkMinimizeToSystemTray.Checked)
+                icpServer.Start();
+                tsbStop.Enabled = true;
+                miNotifyStop.Enabled = true;
+
+                if (chkLaunchMinimized.Checked)
                 {
-                    MinimizeToSystemTray();
-                }
-                else
-                {
-                    WindowState = FormWindowState.Minimized;
+                    if (chkMinimizeToSystemTray.Checked)
+                    {
+                        MinimizeToSystemTray();
+                    }
+                    else
+                    {
+                        WindowState = FormWindowState.Minimized;
+                    }
                 }
             }
+            catch (SocketException e)
+            {
+                logger.Debug("SocketException: " + e.Message);
+                MessageBox.Show("Cannot run server. Try running it on another port. Error message: \n\n" + e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
 
-            tsbStop.Enabled = true;
-            miNotifyStop.Enabled = true;
+                tsbStart.Enabled = true;
+                miNotifyStart.Enabled = true;
 
-            icpServer.Start();
+                gbConnection.Enabled = true;
+                gbPerformance.Enabled = true;
+                gbGeneral.Enabled = true;
+            }
         }
 
         private void StopServer()

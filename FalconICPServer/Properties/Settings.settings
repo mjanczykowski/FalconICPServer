@@ -18,7 +18,7 @@
       <Value Profile="(Default)">50</Value>
     </Setting>
     <Setting Name="LaunchMinimized" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Priority" Type="System.Threading.ThreadPriority" Scope="User">
       <Value Profile="(Default)">Normal</Value>
