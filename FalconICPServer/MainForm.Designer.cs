@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsToolbar = new System.Windows.Forms.ToolStrip();
             this.tsbStart = new System.Windows.Forms.ToolStripButton();
             this.tsbStop = new System.Windows.Forms.ToolStripButton();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -111,7 +112,17 @@
             this.btnSaveKeyfile = new System.Windows.Forms.Button();
             this.btnOpenKeyfile = new System.Windows.Forms.Button();
             this.labelKeyfile = new System.Windows.Forms.Label();
-            this.toolStrip1.SuspendLayout();
+            this.nfyTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.mnuTrayNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miNotifyStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.miNotifyStop = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.miNotifySettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miNotifyExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelVersion = new System.Windows.Forms.Label();
+            this.lbProductVersion = new System.Windows.Forms.Label();
+            this.tsToolbar.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabConnection.SuspendLayout();
             this.gbGeneral.SuspendLayout();
@@ -124,24 +135,25 @@
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             this.panelKeyfile.SuspendLayout();
+            this.mnuTrayNotify.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // tsToolbar
             // 
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsToolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.tsToolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbStart,
             this.tsbStop});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStrip1.Size = new System.Drawing.Size(331, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.tsToolbar.Location = new System.Drawing.Point(0, 0);
+            this.tsToolbar.Name = "tsToolbar";
+            this.tsToolbar.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tsToolbar.Size = new System.Drawing.Size(331, 25);
+            this.tsToolbar.TabIndex = 0;
+            this.tsToolbar.Text = "toolStrip1";
             // 
             // tsbStart
             // 
-            this.tsbStart.Image = ((System.Drawing.Image)(resources.GetObject("tsbStart.Image")));
+            this.tsbStart.Image = global::FalconICPServer.Properties.Resources.start;
             this.tsbStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbStart.Name = "tsbStart";
             this.tsbStart.Size = new System.Drawing.Size(86, 22);
@@ -151,7 +163,7 @@
             // tsbStop
             // 
             this.tsbStop.Enabled = false;
-            this.tsbStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbStop.Image")));
+            this.tsbStop.Image = global::FalconICPServer.Properties.Resources.stop;
             this.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbStop.Name = "tsbStop";
             this.tsbStop.Size = new System.Drawing.Size(86, 22);
@@ -172,6 +184,8 @@
             // 
             // tabConnection
             // 
+            this.tabConnection.Controls.Add(this.lbProductVersion);
+            this.tabConnection.Controls.Add(this.labelVersion);
             this.tabConnection.Controls.Add(this.gbGeneral);
             this.tabConnection.Controls.Add(this.gbPerformance);
             this.tabConnection.Controls.Add(this.gbConnection);
@@ -189,8 +203,7 @@
             this.gbGeneral.Controls.Add(this.chkLaunchMinimized);
             this.gbGeneral.Controls.Add(this.chkRunServerOnLaunch);
             this.gbGeneral.Controls.Add(this.chkLaunchAtStartup);
-            this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbGeneral.Location = new System.Drawing.Point(3, 222);
+            this.gbGeneral.Location = new System.Drawing.Point(3, 190);
             this.gbGeneral.Name = "gbGeneral";
             this.gbGeneral.Size = new System.Drawing.Size(317, 112);
             this.gbGeneral.TabIndex = 2;
@@ -1066,21 +1079,101 @@
             this.labelKeyfile.TabIndex = 4;
             this.labelKeyfile.Text = "Keyfile:";
             // 
+            // nfyTrayIcon
+            // 
+            this.nfyTrayIcon.ContextMenuStrip = this.mnuTrayNotify;
+            this.nfyTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("nfyTrayIcon.Icon")));
+            this.nfyTrayIcon.Text = "Falcon ICP Server";
+            this.nfyTrayIcon.DoubleClick += new System.EventHandler(this.nfyTrayIcon_DoubleClick);
+            // 
+            // mnuTrayNotify
+            // 
+            this.mnuTrayNotify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miNotifyStart,
+            this.miNotifyStop,
+            this.toolStripSeparator1,
+            this.miNotifySettings,
+            this.toolStripSeparator2,
+            this.miNotifyExit});
+            this.mnuTrayNotify.Name = "mnuNotify";
+            this.mnuTrayNotify.Size = new System.Drawing.Size(134, 104);
+            // 
+            // miNotifyStart
+            // 
+            this.miNotifyStart.Image = global::FalconICPServer.Properties.Resources.start;
+            this.miNotifyStart.Name = "miNotifyStart";
+            this.miNotifyStart.Size = new System.Drawing.Size(133, 22);
+            this.miNotifyStart.Text = "Start Server";
+            this.miNotifyStart.Click += new System.EventHandler(this.miNotifyStart_Click);
+            // 
+            // miNotifyStop
+            // 
+            this.miNotifyStop.Enabled = false;
+            this.miNotifyStop.Image = global::FalconICPServer.Properties.Resources.stop;
+            this.miNotifyStop.Name = "miNotifyStop";
+            this.miNotifyStop.Size = new System.Drawing.Size(133, 22);
+            this.miNotifyStop.Text = "Stop Server";
+            this.miNotifyStop.Click += new System.EventHandler(this.miNotifyStop_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(130, 6);
+            // 
+            // miNotifySettings
+            // 
+            this.miNotifySettings.Name = "miNotifySettings";
+            this.miNotifySettings.Size = new System.Drawing.Size(133, 22);
+            this.miNotifySettings.Text = "Settings";
+            this.miNotifySettings.Click += new System.EventHandler(this.miNotifySettings_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(130, 6);
+            // 
+            // miNotifyExit
+            // 
+            this.miNotifyExit.Name = "miNotifyExit";
+            this.miNotifyExit.Size = new System.Drawing.Size(133, 22);
+            this.miNotifyExit.Text = "Exit";
+            this.miNotifyExit.Click += new System.EventHandler(this.miNotifyExit_Click);
+            // 
+            // labelVersion
+            // 
+            this.labelVersion.AutoSize = true;
+            this.labelVersion.Location = new System.Drawing.Point(6, 313);
+            this.labelVersion.Name = "labelVersion";
+            this.labelVersion.Size = new System.Drawing.Size(84, 13);
+            this.labelVersion.TabIndex = 3;
+            this.labelVersion.Text = "Product version:";
+            // 
+            // lbProductVersion
+            // 
+            this.lbProductVersion.AutoSize = true;
+            this.lbProductVersion.Location = new System.Drawing.Point(104, 313);
+            this.lbProductVersion.Name = "lbProductVersion";
+            this.lbProductVersion.Size = new System.Drawing.Size(0, 13);
+            this.lbProductVersion.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(331, 388);
             this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.tsToolbar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Falcon ICP Server";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
+            this.tsToolbar.ResumeLayout(false);
+            this.tsToolbar.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.tabConnection.ResumeLayout(false);
             this.tabConnection.PerformLayout();
@@ -1100,6 +1193,7 @@
             this.splitContainer.ResumeLayout(false);
             this.panelKeyfile.ResumeLayout(false);
             this.panelKeyfile.PerformLayout();
+            this.mnuTrayNotify.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1107,7 +1201,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip tsToolbar;
         private System.Windows.Forms.ToolStripButton tsbStart;
         private System.Windows.Forms.ToolStripButton tsbStop;
         private System.Windows.Forms.TabControl tabControl;
@@ -1189,5 +1283,15 @@
         private System.Windows.Forms.Label labelRCL;
         private System.Windows.Forms.TextBox tbSimICPALOW;
         private System.Windows.Forms.Label labelNorm;
+        private System.Windows.Forms.NotifyIcon nfyTrayIcon;
+        private System.Windows.Forms.ContextMenuStrip mnuTrayNotify;
+        private System.Windows.Forms.ToolStripMenuItem miNotifyStart;
+        private System.Windows.Forms.ToolStripMenuItem miNotifyStop;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem miNotifySettings;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem miNotifyExit;
+        private System.Windows.Forms.Label lbProductVersion;
+        private System.Windows.Forms.Label labelVersion;
     }
 }

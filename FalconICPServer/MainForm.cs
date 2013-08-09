@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using Microsoft.Win32;
+using Microsoft.VisualBasic.Devices;
 using NLog;
 using FalconICPServer.Properties;
 using F4KeyFile;
@@ -42,6 +43,67 @@ namespace FalconICPServer
             tbServerPort.Text = Settings.Default.ServerPort;
             nudUpdatePeriod.Value = Settings.Default.UpdatePeriod;
             cbPriority.SelectedItem = Enum.GetName(typeof(ThreadPriority), Settings.Default.Priority);
+        }
+
+        /// <summary>
+        /// Closes application.
+        /// </summary>
+        private void Exit()
+        {
+            nfyTrayIcon.Visible = false;
+            Application.Exit();
+        }
+
+        private void MinimizeToSystemTray()
+        {
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
+            nfyTrayIcon.Visible = true;
+        }
+
+        private void RestoreFromSystemTray()
+        {
+            WindowState = FormWindowState.Normal;
+            ShowInTaskbar = true;
+            nfyTrayIcon.Visible = false;
+        }
+
+        private void UpdateStartupRegistryKey()
+        {
+            if (chkLaunchAtStartup.Checked == true)
+            {
+                var c = new Computer();
+
+                try
+                {
+                    using (var startupKey = c.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                    {
+                        startupKey.SetValue(Application.ProductName, Application.ExecutablePath, RegistryValueKind.String);
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Debug(e);
+                }
+            }
+            else
+            {
+                var c = new Computer();
+
+                try
+                {
+                    using (var startupKey = c.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                    {
+                        startupKey.DeleteValue(Application.ProductName, false);
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Debug(e);
+                }
+            }
+            Settings.Default.LaunchAtWindowsStartup = chkLaunchAtStartup.Checked;
+            Settings.Default.Save();
         }
 
         #region ICPServer methods
@@ -76,6 +138,7 @@ namespace FalconICPServer
             icpServer.ButtonPressed += new EventHandler<ButtonPressEventArgs>(IcpServer_ButtonPressed);
             
             tsbStart.Enabled = false;
+            miNotifyStart.Enabled = false;
 
             gbConnection.Enabled = false;
             gbPerformance.Enabled = false;
@@ -85,7 +148,7 @@ namespace FalconICPServer
             {
                 if (chkMinimizeToSystemTray.Checked)
                 {
-                    //TODO Minimize to sysytem tray
+                    MinimizeToSystemTray();
                 }
                 else
                 {
@@ -94,6 +157,7 @@ namespace FalconICPServer
             }
 
             tsbStop.Enabled = true;
+            miNotifyStop.Enabled = true;
 
             icpServer.Start();
         }
@@ -104,6 +168,7 @@ namespace FalconICPServer
             Thread.CurrentThread.Priority = ThreadPriority.Normal;
 
             tsbStop.Enabled = false;
+            miNotifyStop.Enabled = false;
 
             icpServer.Stop();
             try
@@ -120,6 +185,7 @@ namespace FalconICPServer
             gbGeneral.Enabled = true;
             gbPerformance.Enabled = true;
             tsbStart.Enabled = true;
+            miNotifyStart.Enabled = true;
         }
 
         private string getLocalIpAddress()
@@ -390,6 +456,8 @@ namespace FalconICPServer
         private void MainForm_Load(object sender, EventArgs e)
         {
             lbServerIP.Text = getLocalIpAddress();
+            lbProductVersion.Text = Application.ProductVersion;
+
             foreach (var priority in Enum.GetNames(typeof(ThreadPriority)))
             {
                 if (priority.ToLowerInvariant() != "highest")
@@ -470,10 +538,7 @@ namespace FalconICPServer
 
         private void chkLaunchAtStartup_CheckedChanged(object sender, EventArgs e)
         {
-            //TODO
-
-            Settings.Default.LaunchAtWindowsStartup = chkLaunchAtStartup.Checked;
-            Settings.Default.Save();
+            UpdateStartupRegistryKey();
         }
 
         private void btnOpenKeyfile_Click(object sender, EventArgs e)
@@ -531,6 +596,11 @@ namespace FalconICPServer
             SaveKeyFile();
         }
 
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Exit();
+        }
+
         /// <summary>
         /// Callback for all callback text boxes.
         /// </summary>
@@ -573,7 +643,46 @@ namespace FalconICPServer
             }
         }
 
-        #endregion
+        private void miNotifyExit_Click(object sender, EventArgs e)
+        {
+            Exit();
+        }
 
+        private void miNotifyStart_Click(object sender, EventArgs e)
+        {
+            StartServer();
+        }
+
+        private void miNotifyStop_Click(object sender, EventArgs e)
+        {
+            StopServer();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                if (Settings.Default.MinimizeToSystemTray)
+                {
+                    MinimizeToSystemTray();
+                }
+            }
+            else
+            {
+                RestoreFromSystemTray();
+            }
+        }
+
+        private void miNotifySettings_Click(object sender, EventArgs e)
+        {
+            RestoreFromSystemTray();
+        }
+
+        private void nfyTrayIcon_DoubleClick(object sender, EventArgs e)
+        {
+            RestoreFromSystemTray();
+        }
+
+        #endregion
     }
 }
