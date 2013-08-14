@@ -60,7 +60,7 @@ namespace FalconICPServer
                 if (e is IOException || e is UnauthorizedAccessException || e is PathTooLongException
                     || e is DirectoryNotFoundException || e is ArgumentException || e is ArgumentNullException)
                 {
-                    logger.Debug(e.Message);
+                    logger.Warn(e.Message);
                     return null;
                 }
                 throw;

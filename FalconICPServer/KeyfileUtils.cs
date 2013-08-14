@@ -9,9 +9,7 @@ using NLog;
 namespace FalconICPServer
 {
     public static class KeyfileUtils
-    {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-        
+    {     
         /// <summary>
         /// Returns key combo description.
         /// </summary>

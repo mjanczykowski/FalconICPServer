@@ -83,7 +83,7 @@ namespace FalconICPServer
                 }
                 catch (Exception e)
                 {
-                    logger.Debug(e);
+                    logger.Warn(e);
                 }
             }
             else
@@ -99,7 +99,7 @@ namespace FalconICPServer
                 }
                 catch (Exception e)
                 {
-                    logger.Debug(e);
+                    logger.Warn(e);
                 }
             }
             Settings.Default.LaunchAtWindowsStartup = chkLaunchAtStartup.Checked;
@@ -164,7 +164,7 @@ namespace FalconICPServer
             }
             catch (SocketException e)
             {
-                logger.Debug("SocketException: " + e.Message);
+                logger.Warn("SocketException: " + e.Message);
                 MessageBox.Show("Cannot run server. Try running it on another port. Error message: \n\n" + e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
 
                 tsbStart.Enabled = true;
@@ -192,7 +192,7 @@ namespace FalconICPServer
             }
             catch (Exception e)
             {
-                logger.Debug(e);
+                logger.Warn(e);
             }
 
             gbConnection.Enabled = true;
@@ -275,13 +275,13 @@ namespace FalconICPServer
 
             try
             {
-                logger.Debug("loading {0} keyfile", path);
+                logger.Info("loading {0} keyfile", path);
                 LoadKeyFile(path);
             }
             catch (Exception)
             {
                 MessageBox.Show("Key file load error! Please load the .key file manually on Keystrokes tab.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-                logger.Debug("Key file load error");
+                logger.Info("Key file load error");
             }
         }
 
@@ -427,39 +427,7 @@ namespace FalconICPServer
 
             public KeyFile keyfile;
             public string keyfilePath;
-            /*
-            #region callbacks
-            public static string[] Callbacks = {
-                                                   "SimWarnReset",
-                                                   "SimICPCom1",
-                                                   "SimICPCom2",
-                                                   //"SimICPIFF",
-                                                   "SimICPLIST",
-                                                   "SimICPNav",
-                                                   "SimICPAA",
-                                                   "SimICPAG",
-                                                   "SimICPDEDDOWN",
-                                                   "SimICPDEDUP",
-                                                   "SimICPDEDSEQ",
-                                                   "SimICPResetDED",
-                                                   "SimICPCLEAR",
-                                                   "SimICPTILS",
-                                                   "SimICPALOW",
-                                                   "SimICPTHREE",
-                                                   "SimICPStpt",
-                                                   "SimICPCrus",
-                                                   "SimICPSIX",
-                                                   "SimICPMark",
-                                                   "SimICPEIGHT",
-                                                   "SimICPNINE",
-                                                   "SimICPZERO",
-                                                   "SimICPEnter",
-                                                   "SimICPNext",
-                                                   "SimICPPrevious",
-                                                   "SimDriftCOOn",
-                                                   "SimDriftCOOff" };
-            #endregion
-            */
+
             public Dictionary<string, KeyBinding> bindings = new Dictionary<string, KeyBinding>();
         }
 

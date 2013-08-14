@@ -16,8 +16,6 @@ namespace FalconICPServer
 {
     public partial class KeystrokeGetter : Form
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-
         private string callback;
         private KeyFile keyFile;
         public KeyBinding newBinding { get; private set; }

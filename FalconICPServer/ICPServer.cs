@@ -45,13 +45,13 @@ namespace FalconICPServer
         /// </summary>
         public void Start()
         {
-            logger.Info("Running server");
-
             var serverPort = Settings.Default.ServerPort;
             var port = 30456;
             Int32.TryParse(Settings.Default.ServerPort, out port);
 
             IPAddress ip = IPAddress.Parse("0.0.0.0");
+
+            logger.Info("Running server {0}:{1}.", ip.ToString(), port.ToString());
 
             _running = true;
 
@@ -67,7 +67,7 @@ namespace FalconICPServer
         /// </summary>
         public void Stop()
         {
-            logger.Debug("Stop()");
+            logger.Info("Stopping server.");
 
             _running = false;
 
@@ -77,8 +77,6 @@ namespace FalconICPServer
             {
                 CloseClientThread();
             }
-
-            
         }
 
         /// <summary>
@@ -112,9 +110,9 @@ namespace FalconICPServer
 
                     var ipAddress = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
                     this.OnConnected(new ConnectionEventArgs(ipAddress));
-                }
 
-                logger.Debug("Connection established");
+                    logger.Info("Connection established: {0}", ipAddress);
+                }
 
                 // Run new client thread
                 clientThread = new Thread(RunConnectionThread);
@@ -125,13 +123,12 @@ namespace FalconICPServer
                 // Listen for next connection (in case the current gets broken, etc.)
                 listener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClientCallback), listener);
             }
-            catch (SocketException e) { logger.Debug(e); }
-            catch (ObjectDisposedException e) { logger.Debug(e); }
+            catch (SocketException e) { logger.Warn(e); }
+            catch (ObjectDisposedException e) { logger.Warn(e); }
             catch (Exception e) { logger.Error(e); }
         }
 
-        /*
-        private void ReadCallback(IAsyncResult asyncResult)
+        /* private void ReadCallback(IAsyncResult asyncResult)
         {
             var buffer = (byte[]) asyncResult.AsyncState;
 
@@ -246,7 +243,7 @@ namespace FalconICPServer
                     {
                         Array.Copy(rawFlightData, 236, ded, 0, 130);
                         Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
-
+                        
                         for (int i = 0; i < 130; i++)
                         {
                             if (inverted[i] == 2)
@@ -259,10 +256,8 @@ namespace FalconICPServer
                     //if DED has changed
                     if (!ded.SequenceEqual(previous))
                     {
-                        logger.Debug("Sending DED info " + ded.Length);
                         networkStream.Write(ded, 0, ded.Length);
                         previous = (byte[])ded.Clone();
-                        logger.Debug("DED info sent");
                     }
 
                     Thread.Sleep(Settings.Default.UpdatePeriod);
@@ -284,7 +279,7 @@ namespace FalconICPServer
             }
 
             this.OnDisconnected(new ConnectionEventArgs(null));
-            logger.Debug("client thread finished");
+            logger.Info("client thread finished");
         }
         
         /// <summary>
