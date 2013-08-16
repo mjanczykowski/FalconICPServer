@@ -129,9 +129,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Content Include="falconicp.ico" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="ClassDiagram1.cd" />
     <None Include="FalconICPServer_TemporaryKey.pfx" />
     <None Include="NLog.xsd">
