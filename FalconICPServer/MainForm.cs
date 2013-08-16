@@ -50,6 +50,7 @@ namespace FalconICPServer
         /// </summary>
         private void Exit()
         {
+            logger.Info("Application Exit");
             nfyTrayIcon.Visible = false;
             Application.Exit();
         }
@@ -591,6 +592,11 @@ namespace FalconICPServer
         private void tbCallback_Click(object sender, EventArgs e)
         {
             if (!(sender is TextBox)) throw new ArgumentException();
+
+            if (keyfileState.keyfile == null)
+            {
+                return;
+            }
 
             TextBox tbCallback = sender as TextBox;
             string callback = tbCallback.Name.Substring(2);
