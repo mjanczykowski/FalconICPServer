@@ -35,11 +35,6 @@ namespace FalconICPServer
                 newBinding = new KeyBinding(callback, kb.CockpitItemId, kb.MouseClickableOnly, new KeyWithModifiers(kb.Key.ScanCode, kb.Key.Modifiers), new KeyWithModifiers(kb.ComboKey.ScanCode, kb.ComboKey.Modifiers), kb.Accessibility, kb.Description);
                 lblKeystroke.Text = KeyfileUtils.GetKeyDescription(newBinding);
             }
-            else if (b is DirectInputBinding)
-            {
-                var db = b as DirectInputBinding;
-                newBinding = new KeyBinding(callback, db.CockpitItemId, false, new KeyWithModifiers(0, 0), new KeyWithModifiers(0, 0), UIAcccessibility.VisibleWithChangesAllowed, callback);
-            }
             else
             {
                 newBinding = new KeyBinding(callback, -1, false, new KeyWithModifiers(0, 0), new KeyWithModifiers(0, 0), UIAcccessibility.VisibleWithChangesAllowed, callback);

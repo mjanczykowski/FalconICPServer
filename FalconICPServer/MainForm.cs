@@ -317,13 +317,18 @@ namespace FalconICPServer
             }
             catch (Exception e)
             {
-                MessageBox.Show(string.Format("An error occured while loading key file.\n\n{0}", e.StackTrace),
+                MessageBox.Show(string.Format("An error occured while loading key file.\n\n{0}", e.Message),
                     Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error,
                     MessageBoxDefaultButton.Button1);
-                logger.Info(e.Message);
+                logger.Error(e.Message);
                 if (!string.IsNullOrEmpty(oldKeyfilePath))
                 {
                     LoadKeyFile(oldKeyfilePath);
+                }
+                else
+                {
+                    keyfileState.keyfile = null;
+                    keyfileState.keyfilePath = null;
                 }
             }
 

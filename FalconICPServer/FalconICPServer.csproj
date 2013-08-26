@@ -23,8 +23,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -149,11 +149,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SVN\LightningTools\trunk\F4KeyFile\F4KeyFile.csproj">
+    <ProjectReference Include="..\F4KeyFile\F4KeyFile.csproj">
       <Project>{eeed5595-6eb8-473d-b487-334b45d753a6}</Project>
       <Name>F4KeyFile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SVN\LightningTools\trunk\F4SharedMem\F4SharedMem.csproj">
+    <ProjectReference Include="..\F4SharedMem\F4SharedMem.csproj">
       <Project>{517d1b4d-e8c7-4331-bbe7-300fd6b78441}</Project>
       <Name>F4SharedMem</Name>
     </ProjectReference>
