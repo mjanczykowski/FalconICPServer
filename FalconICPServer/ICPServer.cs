@@ -199,8 +199,12 @@ namespace FalconICPServer
 
             var ded = new byte[130];
             var inverted = new byte[130];
+            var defaultDedLines = new byte[130];
+
             var previous = new byte[130];
+            byte[] toSend = ded;
             var buffer = new byte[32];
+            bool flying = false;
 
             int readBytes = 0;
 
@@ -241,23 +245,35 @@ namespace FalconICPServer
 
                     if (rawFlightData != null)
                     {
-                        Array.Copy(rawFlightData, 236, ded, 0, 130);
-                        Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
-                        
-                        for (int i = 0; i < 130; i++)
+                        // check if player if flying (or is in Menu) - 0x80000000 in hsiBits of SharedMemory
+                        flying = ((rawFlightData[235] >> 7) == 1);
+
+                        if (flying)
                         {
-                            if (inverted[i] == 2)
+                            Array.Copy(rawFlightData, 236, ded, 0, 130);
+                            Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
+
+                            for (int i = 0; i < 130; i++)
                             {
-                                ded[i] += 128;
+                                if (inverted[i] == 2)
+                                {
+                                    ded[i] += 128;
+                                }
                             }
+
+                            toSend = ded;
+                        }
+                        else
+                        {
+                            toSend = defaultDedLines;
                         }
                     }
 
                     //if DED has changed
-                    if (!ded.SequenceEqual(previous))
+                    if (!toSend.SequenceEqual(previous))
                     {
-                        networkStream.Write(ded, 0, ded.Length);
-                        previous = (byte[])ded.Clone();
+                        networkStream.Write(toSend, 0, toSend.Length);
+                        previous = (byte[])toSend.Clone();
                     }
 
                     Thread.Sleep(Settings.Default.UpdatePeriod);
