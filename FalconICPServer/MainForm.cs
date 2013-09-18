@@ -364,6 +364,7 @@ namespace FalconICPServer
                 callbackToTextBox.Add("SimICPCom1", tbSimICPCom1);
                 callbackToTextBox.Add("SimICPCom2", tbSimICPCom2);
                 //"SimICPIFF"
+                callbackToTextBox.Add("SimICPIFF", null);
                 callbackToTextBox.Add("SimICPLIST", tbSimICPLIST);
                 callbackToTextBox.Add("SimICPAA", tbSimICPAA);
                 callbackToTextBox.Add("SimICPAG", tbSimICPAG);
@@ -400,29 +401,38 @@ namespace FalconICPServer
                     var keyBinding = binding as KeyBinding;
                     keyfileState.bindings.Add(pair.Key, keyBinding);
 
-                    string desc = KeyfileUtils.GetKeyDescription(keyBinding);
-                    if (desc == null)
+                    if (pair.Value != null)
                     {
-                        pair.Value.BackColor = Color.LightCoral;
-                        pair.Value.Text = "";
-                    }
-                    else
-                    {
-                        pair.Value.BackColor = (Color)System.Drawing.SystemColors.Window;
-                        pair.Value.ForeColor = Color.DarkGray;
-                        pair.Value.Text = desc;
+                        string desc = KeyfileUtils.GetKeyDescription(keyBinding);
+                        if (desc == null)
+                        {
+                            pair.Value.BackColor = Color.LightCoral;
+                            pair.Value.Text = "";
+                        }
+                        else
+                        {
+                            pair.Value.BackColor = (Color)System.Drawing.SystemColors.Window;
+                            pair.Value.ForeColor = Color.DarkGray;
+                            pair.Value.Text = desc;
+                        }
                     }
                 }
                 else if (binding is DirectInputBinding)
                 {
-                    pair.Value.BackColor = Color.LightCoral;
-                    pair.Value.ForeColor = Color.Black;
-                    pair.Value.Text = "DX input (not supported)";
+                    if (pair.Value != null)
+                    {
+                        pair.Value.BackColor = Color.LightCoral;
+                        pair.Value.ForeColor = Color.Black;
+                        pair.Value.Text = "DX input (not supported)";
+                    }
                 }
                 else if(binding == null)
                 {
-                    pair.Value.BackColor = Color.LightCoral;
-                    pair.Value.Text = "";
+                    if (pair.Value != null)
+                    {
+                        pair.Value.BackColor = Color.LightCoral;
+                        pair.Value.Text = "";
+                    }
                 }
             }
         }
