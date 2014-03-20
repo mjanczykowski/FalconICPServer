@@ -37,7 +37,7 @@ namespace FalconICPServer
 
         public ICPServer()
         {
-            _smReader = new Reader();
+            _smReader = new Reader(F4SharedMem.FalconDataFormats.BMS4);
         }
 
         /// <summary>
@@ -245,11 +245,12 @@ namespace FalconICPServer
 
                     if (rawFlightData != null)
                     {
-                        // check if player if flying (or is in Menu) - 0x80000000 in hsiBits of SharedMemory
-                        flying = ((rawFlightData[235] >> 7) == 1);
+                        // check if player is flying (or is in Menu) - 0x80000000 in hsiBits of SharedMemory
+                        //flying = ((rawFlightData[235] >> 7) == 1);
 
-                        if (flying)
-                        {
+                        //------------ removed - in current release of BMS the bit is not set in RAMP start ----------
+                        //if (flying)
+                        //{
                             Array.Copy(rawFlightData, 236, ded, 0, 130);
                             Array.Copy(rawFlightData, 236 + 130, inverted, 0, 130);
 
@@ -262,11 +263,11 @@ namespace FalconICPServer
                             }
 
                             toSend = ded;
-                        }
+                        /*}
                         else
                         {
                             toSend = defaultDedLines;
-                        }
+                        }*/
                     }
 
                     //if DED has changed
