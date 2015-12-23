@@ -37,7 +37,7 @@ namespace FalconICPServer
 
         public ICPServer()
         {
-            _smReader = new Reader(F4SharedMem.FalconDataFormats.BMS4);
+            _smReader = new Reader();
         }
 
         /// <summary>

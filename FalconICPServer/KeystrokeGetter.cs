@@ -16,6 +16,42 @@ namespace FalconICPServer
 {
     public partial class KeystrokeGetter : Form
     {
+        private const int DEFAULT_SOUND_ID = 122;
+
+        private static Dictionary<string, int> CALLBACK_SOUND_IDS = new Dictionary<string, int>()
+        {
+            {"SimICPCom1", 122},
+            {"SimICPCom2", 122},
+            {"SimICPIFF", 122},
+            {"SimICPLIST", 122},
+            {"SimICPAA", 122},
+            {"SimICPAG", 122},
+            {"SimICPDEDDOWN", 120},
+            {"SimICPDEDUP", 120},
+            {"SimICPDEDSEQ", 120},
+            {"SimICPResetDED", 120},
+            {"SimICPCLEAR", 122},
+            {"SimICPTILS", 122},
+            {"SimICPALOW", 122},
+            {"SimICPTHREE", 122},
+            {"SimICPStpt", 122},
+            {"SimICPCrus", 122},
+            {"SimICPSIX", 122},
+            {"SimICPMark", 122},
+            {"SimICPEIGHT", 122},
+            {"SimICPNINE", 122},
+            {"SimICPZERO", 122},
+            {"SimICPEnter", 122},
+            {"SimICPNext", 126},
+            {"SimICPPrevious", 126},
+            {"SimDriftCOOn", 121},
+            {"SimDriftCOOff", 121},
+            {"SimWarnReset", 115},
+            {"SimSetWX", 122},
+            {"SimFlirLevelUp", 122},
+            {"SimFlirLevelDown", 122}
+        };
+
         private string callback;
         private KeyFile keyFile;
         public KeyBinding newBinding { get; private set; }
@@ -28,16 +64,18 @@ namespace FalconICPServer
             this.callback = callback;
             InitializeComponent();
             labelMessage.Text = String.Format(Resources.info_press_keys_for_callback, callback);
-            var b = keyFile.FindBindingForCallback(callback);
+            var b = keyFile.GetBindingForCallback(callback);
             if (b is KeyBinding)
             {
                 var kb = (b as KeyBinding);
-                newBinding = new KeyBinding(callback, kb.CockpitItemId, kb.MouseClickableOnly, new KeyWithModifiers(kb.Key.ScanCode, kb.Key.Modifiers), new KeyWithModifiers(kb.ComboKey.ScanCode, kb.ComboKey.Modifiers), kb.Accessibility, kb.Description);
+                newBinding = new KeyBinding(callback, kb.SoundId, new KeyWithModifiers(kb.Key.ScanCode, kb.Key.Modifiers), new KeyWithModifiers(kb.ComboKey.ScanCode, kb.ComboKey.Modifiers), kb.UIVisibility, kb.Description);
                 lblKeystroke.Text = KeyfileUtils.GetKeyDescription(newBinding);
             }
             else
             {
-                newBinding = new KeyBinding(callback, -1, false, new KeyWithModifiers(0, 0), new KeyWithModifiers(0, 0), UIAcccessibility.VisibleWithChangesAllowed, callback);
+                int soundId;
+                soundId = CALLBACK_SOUND_IDS.TryGetValue(callback, out soundId) ? soundId : DEFAULT_SOUND_ID;
+                newBinding = new KeyBinding(callback, soundId, new KeyWithModifiers(0, 0), new KeyWithModifiers(0, 0), UIVisibility.VisibleWithChangesAllowed, callback);
             }
             this.DIInitializeKeyboard();
         }
@@ -98,7 +136,7 @@ namespace FalconICPServer
         private void ValidateKeystroke()
         {
             bool valid = true;
-            foreach (var binding in keyFile.Bindings)
+            foreach (var binding in keyFile.Lines)
             {
                 if (!(binding is KeyBinding))
                 {
@@ -107,7 +145,7 @@ namespace FalconICPServer
 
                 var keyBinding = binding as KeyBinding;
 
-                if (keyBinding.Key.Equals(newBinding.Key) && keyBinding.ComboKey.Equals(newBinding.ComboKey))
+                if (!keyBinding.Callback.Equals(newBinding.Callback) && sameKeysAssigned(newBinding, keyBinding))
                 {
                     valid = false;
                     break;
@@ -123,6 +161,12 @@ namespace FalconICPServer
                 lblKeystroke.BackColor = Color.LightCoral;
                 btnOK.Enabled = false;
             }
+        }
+
+        private bool sameKeysAssigned(KeyBinding a, KeyBinding b)
+        {
+            return a.Key.ScanCode.Equals(b.Key.ScanCode) && a.Key.Modifiers.Equals(b.Key.Modifiers)
+                && a.ComboKey.ScanCode.Equals(b.ComboKey.ScanCode) && a.ComboKey.Modifiers.Equals(b.ComboKey.Modifiers);
         }
 
         private void btnOK_Click(object sender, EventArgs e)

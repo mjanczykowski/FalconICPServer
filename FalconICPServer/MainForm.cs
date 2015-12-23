@@ -251,11 +251,11 @@ namespace FalconICPServer
 
             if (string.IsNullOrEmpty(Settings.Default.KeyfilePath))
             {
-                string keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Benchmark Sims\\Falcon BMS 4.32";
+                string keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Benchmark Sims\\Falcon BMS 4.33";
                 var dir = (string)Registry.GetValue(keyname, "baseDir", null);
                 if (dir == null)
                 {
-                    keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.32";
+                    keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
                     dir = (string)Registry.GetValue(keyname, "baseDir", null);
                 }
                 if (dir != null)
@@ -265,7 +265,7 @@ namespace FalconICPServer
 
                 if (dir == null || path == null)
                 {
-                    MessageBox.Show("Could not find Falcon BMS 4.32 location. Please load the .key file manually on Keystrokes tab.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Could not find Falcon BMS 4.33 location. Please load the .key file manually on Keystrokes tab.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                     return;
                 }
             }
@@ -304,8 +304,7 @@ namespace FalconICPServer
             try
             {
                 keyfileState.keyfilePath = path;
-                keyfileState.keyfile = new KeyFile(keyfileFI);
-                keyfileState.keyfile.Load();
+                keyfileState.keyfile = KeyFile.Load(path);
                 ParseKeyFile();
                 keyfileState.Changed = false;
 
@@ -344,7 +343,7 @@ namespace FalconICPServer
                 return;
             }
 
-            keyfileState.keyfile.Save();
+            keyfileState.keyfile.Save(keyfileState.keyfilePath);
             keyfileState.Changed = false;
             btnSaveKeyfile.Enabled = false;
         }
@@ -395,7 +394,7 @@ namespace FalconICPServer
 
             foreach (var pair in callbackToTextBox)
             {
-                var binding = keyfileState.keyfile.FindBindingForCallback(pair.Key);
+                var binding = keyfileState.keyfile.GetBindingForCallback(pair.Key);
                 if (binding is KeyBinding)
                 {
                     var keyBinding = binding as KeyBinding;
@@ -542,12 +541,12 @@ namespace FalconICPServer
         private void btnOpenKeyfile_Click(object sender, EventArgs e)
         {
             string path = null;
-            string keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Benchmark Sims\\Falcon BMS 4.32";
+            string keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Benchmark Sims\\Falcon BMS 4.33";
             
             var dir = (string)Registry.GetValue(keyname, "baseDir", null);
             if (dir == null)
             {
-                keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.32";
+                keyname = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Benchmark Sims\\Falcon BMS 4.33";
                 dir = (string)Registry.GetValue(keyname, "baseDir", null);
             }
             if (dir != null)
@@ -620,11 +619,18 @@ namespace FalconICPServer
 
             if (newBinding != null)
             {
-                var bindings = keyfileState.keyfile.Bindings;
+                var bindings = keyfileState.keyfile.Lines;
                 bool found = false;
                 for (int i = 0; i < bindings.Length; i++)
                 {
-                    if (callback.Equals(bindings[i].Callback))
+                    if (!(bindings[i] is IBinding))
+                    {
+                        continue;
+                    }
+
+                    var binding = bindings[i] as IBinding;
+
+                    if (callback.Equals(binding.Callback))
                     {
                         bindings[i] = newBinding;
                         found = true;
@@ -638,7 +644,7 @@ namespace FalconICPServer
                     Array.Resize(ref bindings, bindings.Length + 1);
                     bindings[bindings.Length - 1] = newBinding;
                 }
-                keyfileState.keyfile.Bindings = bindings;
+                keyfileState.keyfile.Lines = bindings;
 
                 ParseKeyFile();
                 keyfileState.Changed = true;
